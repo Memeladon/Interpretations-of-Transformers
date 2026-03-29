@@ -1,0 +1,44 @@
+{
+  "seed": 42,
+  "cache_dir": ".cache/hf_datasets",
+  "dataset_limit_per_source": null,
+  "models": {
+    "bert": true,
+    "gpt": false,
+    "llama": false
+  },
+  "finetuning": {
+    "enabled": true,
+    "output_dir": "artifacts/finetuned",
+    "skip_if_exists": true,
+    "epochs": 2,
+    "learning_rate": 2e-5,
+    "weight_decay": 0.01,
+    "train_batch_size": 4,
+    "eval_batch_size": 8
+  },
+  "levels": ["text", "sentence", "token"],
+  "text_strategy": "mean",
+  "batch_size": 8,
+  "max_length": 256,
+  "decomposition": {
+    "pca_components": 8,
+    "enabled_methods": ["pca", "probe_directions", "null_space"],
+    "interventions": ["pca", "probe_directions", "null_space"],
+    "drop_components": 1
+  },
+  "tracks": {
+    "semantic": {
+      "enabled": true,
+      "tasks": ["semantic_similarity", "paraphrase"]
+    },
+    "tone": {
+      "enabled": true,
+      "tasks": ["sentiment"]
+    },
+    "style": {
+      "enabled": true,
+      "tasks": ["emotion"]
+    }
+  }
+}
