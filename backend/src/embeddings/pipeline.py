@@ -291,15 +291,10 @@ def run_embedding_pipeline(
     )
 
     extractor = EmbeddingExtractor(model=model, tokenizer=tokenizer, max_length=max_length)
-    embedding_output = extractor.encode(texts=texts, batch_size=batch_size)
-
-    layer_outputs = extract_all_layers(
-        embedding_output=embedding_output,
-        level=level,
-        strategy=strategy,
-        tokenizer=tokenizer,
-        texts=texts,
-    )
+    # В encode сразу агрегируем embeddings по уровню (text/sentence/token),
+    # чтобы не собирать гигантские hidden_states (N, seq_len, hidden) для всех слоёв.
+    enc = extractor.encode(texts=texts, batch_size=batch_size, level=level, strategy=strategy)
+    layer_outputs = enc["layer_outputs"]
     logger.info("aggregated %s layer tensors (level=%s)", len(layer_outputs), level)
 
     embedding_paths = save_layer_embeddings(layer_outputs, output_dir=output_dir, prefix=f"{level}_{strategy}")
