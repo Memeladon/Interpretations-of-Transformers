@@ -21,6 +21,23 @@
   "text_strategy": "mean",
   "batch_size": 8,
   "max_length": 256,
+  "runtime": {
+    "cpu_threads": 1
+  },
+  "runtime_overrides": {
+    "bert": {
+      "batch_size": 8,
+      "max_length": 256
+    },
+    "gpt": {
+      "batch_size": 4,
+      "max_length": 192
+    },
+    "llama": {
+      "batch_size": 2,
+      "max_length": 128
+    }
+  },
   "decomposition": {
     "pca_components": 8,
     "enabled_methods": ["pca", "probe_directions", "null_space"],

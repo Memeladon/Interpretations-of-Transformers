@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -30,6 +31,17 @@ def set_seed(seed: int = 42) -> None:
 
 def _enabled_models(model_flags: dict[str, bool]) -> list[str]:
     return [name for name, enabled in model_flags.items() if enabled]
+
+
+def _runtime_params_for_family(cfg: dict, family: str) -> tuple[int, int]:
+    batch_size = int(cfg["batch_size"])
+    max_length = int(cfg["max_length"])
+    overrides = (cfg.get("runtime_overrides") or {}).get(family, {})
+    if "batch_size" in overrides:
+        batch_size = int(overrides["batch_size"])
+    if "max_length" in overrides:
+        max_length = int(overrides["max_length"])
+    return batch_size, max_length
 
 
 def _run_track_analysis(
@@ -64,6 +76,7 @@ def _run_track_analysis(
 
         for family in models:
             log_section(log, f"Model: {family.upper()} | track: {track_name} | task: {task_name}")
+            run_batch_size, run_max_length = _runtime_params_for_family(cfg, family)
             ckpt = None
             if finetuned_by_family is not None:
                 ckpt = finetuned_by_family.get(family)
@@ -77,7 +90,7 @@ def _run_track_analysis(
 
             for level in cfg["levels"]:
                 level_out_dir = output_root / "analysis" / track_name / task_name / family / level
-                log.info("Analysis level: %s", level)
+                log.info("Analysis level: %s (batch_size=%s, max_length=%s)", level, run_batch_size, run_max_length)
                 result = run_embedding_pipeline(
                     model=model,
                     tokenizer=tokenizer,
@@ -87,8 +100,8 @@ def _run_track_analysis(
                     probing_task_type=task_type,
                     level=level,
                     strategy=cfg["text_strategy"],
-                    batch_size=cfg["batch_size"],
-                    max_length=cfg["max_length"],
+                    batch_size=run_batch_size,
+                    max_length=run_max_length,
                     seed=cfg["seed"],
                     decomposition_methods=cfg["decomposition"]["enabled_methods"],
                     intervention_methods=cfg["decomposition"]["interventions"],
@@ -119,6 +132,12 @@ def main() -> None:
     log.info("Log file: %s", log_path.resolve())
 
     set_seed(cfg["seed"])
+    # Более стабильный runtime на Windows для долгих encode batch.
+    os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+    threads = int((cfg.get("runtime") or {}).get("cpu_threads", 1))
+    torch.set_num_threads(threads)
+    torch.set_num_interop_threads(threads)
+    log.info("Runtime threads: torch num_threads=%s interop_threads=%s", threads, threads)
     models = _enabled_models(cfg["models"])
     if not models:
         raise ValueError("All models are disabled in config: models")
