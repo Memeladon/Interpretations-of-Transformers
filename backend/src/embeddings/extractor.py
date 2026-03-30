@@ -1,4 +1,5 @@
 import logging
+import traceback
 import torch
 from typing import Dict, List
 
@@ -33,18 +34,54 @@ class EmbeddingExtractor:
         )
 
         for bi, start in enumerate(range(0, len(texts), batch_size)):
+            batch_no = bi + 1
             batch_texts = texts[start : start + batch_size]
-            inputs = self.tokenizer(
-                batch_texts,
-                return_tensors="pt",
-                padding="max_length",
-                truncation=True,
-                max_length=self.max_length,
-                return_attention_mask=True,
+            chars_total = sum(len(t) for t in batch_texts)
+            logger.debug(
+                "encode batch %s/%s start: idx=[%s:%s], samples=%s, total_chars=%s",
+                batch_no,
+                n_batches,
+                start,
+                start + len(batch_texts),
+                len(batch_texts),
+                chars_total,
             )
-            inputs = {k: v.to(self.device) for k, v in inputs.items()}
-            with torch.no_grad():
-                outputs = self.model(**inputs, output_hidden_states=True)
+            try:
+                inputs = self.tokenizer(
+                    batch_texts,
+                    return_tensors="pt",
+                    padding="max_length",
+                    truncation=True,
+                    max_length=self.max_length,
+                    return_attention_mask=True,
+                )
+                logger.debug(
+                    "encode batch %s/%s tokenized: input_ids=%s attention_mask=%s",
+                    batch_no,
+                    n_batches,
+                    tuple(inputs["input_ids"].shape),
+                    tuple(inputs["attention_mask"].shape),
+                )
+                inputs = {k: v.to(self.device) for k, v in inputs.items()}
+                with torch.no_grad():
+                    outputs = self.model(**inputs, output_hidden_states=True)
+                logger.debug(
+                    "encode batch %s/%s forward ok: n_layers=%s layer0=%s",
+                    batch_no,
+                    n_batches,
+                    len(outputs.hidden_states),
+                    tuple(outputs.hidden_states[0].shape),
+                )
+            except Exception as exc:
+                logger.error(
+                    "encode batch %s/%s failed (%s): %s",
+                    batch_no,
+                    n_batches,
+                    type(exc).__name__,
+                    exc,
+                )
+                logger.error("encode batch traceback:\n%s", traceback.format_exc())
+                raise
 
             if not all_hidden:
                 all_hidden = [[] for _ in range(len(outputs.hidden_states))]
@@ -53,8 +90,8 @@ class EmbeddingExtractor:
 
             all_masks.append(inputs["attention_mask"].detach().cpu())
 
-            if (bi + 1) % log_every == 0 or bi + 1 == n_batches:
-                logger.info("encode batch %s/%s", bi + 1, n_batches)
+            if batch_no % log_every == 0 or batch_no == n_batches:
+                logger.info("encode batch %s/%s", batch_no, n_batches)
 
         hidden_states = tuple(torch.cat(parts, dim=0) for parts in all_hidden)
         attention_mask = torch.cat(all_masks, dim=0)
