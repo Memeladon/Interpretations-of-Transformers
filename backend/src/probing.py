@@ -83,6 +83,14 @@ def train_probes_by_layer(
 
     for layer_idx, x_layer in enumerate(layer_outputs):
         x = x_layer if isinstance(x_layer, np.ndarray) else x_layer.numpy()
+        if not np.isfinite(x).all():
+            bad = int((~np.isfinite(x)).sum())
+            logger.warning(
+                "probe layer %s: found %s non-finite values (NaN/Inf), replacing with finite zeros",
+                layer_idx,
+                bad,
+            )
+            x = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
         x_train, x_test, y_train, y_test = train_test_split(
             x, y, test_size=test_size, random_state=seed, stratify=stratify
         )

@@ -60,12 +60,17 @@ def sentence_level(
         total = sum(sent_sizes)
         cursor = 0
         vectors: list[torch.Tensor] = []
+        fallback_vec = token_embeds.mean(dim=0)
         for size in sent_sizes:
             scaled = max(1, int(round(size * token_embeds.shape[0] / total)))
             end = min(token_embeds.shape[0], cursor + scaled)
             if end <= cursor:
                 end = min(token_embeds.shape[0], cursor + 1)
-            vectors.append(token_embeds[cursor:end].mean(dim=0))
+            segment = token_embeds[cursor:end]
+            if segment.shape[0] == 0:
+                vectors.append(fallback_vec)
+            else:
+                vectors.append(segment.mean(dim=0))
             cursor = end
         results.append(torch.stack(vectors))
     return results
