@@ -10,6 +10,18 @@ _BACKEND_ROOT = Path(__file__).resolve().parent.parent
 if str(_BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(_BACKEND_ROOT))
 
+# До import torch: на Windows многопоточный BLAS/OpenMP + PyTorch на CPU часто даёт
+# access violation в нативном коде при длинных forward (BERT). Ограничиваем BLAS.
+if os.name == "nt":
+    for _k in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "VECLIB_MAXIMUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+    ):
+        os.environ.setdefault(_k, "1")
+
 import numpy as np
 import torch
 
@@ -45,6 +57,38 @@ def _runtime_params_for_family(cfg: dict, family: str) -> tuple[int, int]:
     return batch_size, max_length
 
 
+def _resolve_runtime(cfg: dict) -> dict:
+    """cpu_threads 0 или null → авто; probing_n_jobs=-1 → все ядра в sklearn."""
+    rt = cfg.get("runtime") or {}
+    cpu = rt.get("cpu_threads", 1)
+    auto_cpu = cpu is None or int(cpu) <= 0
+    if auto_cpu:
+        cpu = max(1, (os.cpu_count() or 1))
+        # Windows + CPU: «все ядра» в torch часто ломает нативный стек (GELU/linear) на длинном encode.
+        if os.name == "nt" and not torch.cuda.is_available():
+            log.warning(
+                "Windows CPU: runtime.cpu_threads auto → 1 (PyTorch+OpenMP на всех ядрах даёт access violation); "
+                "для скорости используйте CUDA или явно задайте cpu_threads."
+            )
+            cpu = 1
+    else:
+        cpu = max(1, int(cpu))
+    interop = rt.get("torch_interop_threads")
+    if interop is None:
+        interop = min(2, cpu)
+    else:
+        interop = max(1, int(interop))
+    probing_n = int(rt.get("probing_n_jobs", 1))
+    tok_par = bool(rt.get("tokenizers_parallelism", False))
+    out = {
+        "cpu_threads": cpu,
+        "torch_interop_threads": interop,
+        "probing_n_jobs": probing_n,
+        "tokenizers_parallelism": tok_par,
+    }
+    return out
+
+
 def _run_track_analysis(
     *,
     track_name: str,
@@ -54,6 +98,7 @@ def _run_track_analysis(
     cfg: dict,
     output_root: Path,
     finetuned_by_family: dict[str, Path | None] | None = None,
+    probing_n_jobs: int = 1,
 ) -> None:
     group_rows = [r for r in records if r["task_name"] in task_names]
     if not group_rows:
@@ -108,6 +153,7 @@ def _run_track_analysis(
                     intervention_methods=cfg["decomposition"]["interventions"],
                     pca_components=cfg["decomposition"]["pca_components"],
                     drop_components=cfg["decomposition"]["drop_components"],
+                    probing_n_jobs=probing_n_jobs,
                 )
                 probe = result.get("probing") or {}
                 if probe:
@@ -134,17 +180,23 @@ def main() -> None:
     # Пишем traceback даже для фатальных нативных падений (если процесс успеет сбросить буфер).
     crash_log = open(log_path, "a", encoding="utf-8")
     faulthandler.enable(file=crash_log, all_threads=True)
-    faulthandler.dump_traceback_later(180, repeat=True, file=crash_log)
-    log.info("Native crash diagnostics enabled (faulthandler).")
+    log.info(
+        "faulthandler enabled on log file (no periodic dumps: long CPU encode would look like false timeouts)."
+    )
 
     try:
         set_seed(cfg["seed"])
-        # Более стабильный runtime на Windows для долгих encode batch.
-        os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
-        threads = int((cfg.get("runtime") or {}).get("cpu_threads", 1))
-        torch.set_num_threads(threads)
-        torch.set_num_interop_threads(threads)
-        log.info("Runtime threads: torch num_threads=%s interop_threads=%s", threads, threads)
+        rt = _resolve_runtime(cfg)
+        os.environ["TOKENIZERS_PARALLELISM"] = "true" if rt["tokenizers_parallelism"] else "false"
+        torch.set_num_threads(rt["cpu_threads"])
+        torch.set_num_interop_threads(rt["torch_interop_threads"])
+        log.info(
+            "Runtime: torch num_threads=%s interop_threads=%s TOKENIZERS_PARALLELISM=%s probing_n_jobs=%s",
+            rt["cpu_threads"],
+            rt["torch_interop_threads"],
+            os.environ["TOKENIZERS_PARALLELISM"],
+            rt["probing_n_jobs"],
+        )
         models = _enabled_models(cfg["models"])
         if not models:
             raise ValueError("All models are disabled in config: models")
@@ -175,6 +227,13 @@ def main() -> None:
         style_ckpts: dict[str, Path] = {}
 
         if ft_cfg.get("enabled", False):
+            log.info(
+                "Finetune hardware: dataloader_num_workers=%s fp16=%s bf16=%s gradient_accumulation_steps=%s",
+                ft_cfg.get("dataloader_num_workers"),
+                ft_cfg.get("fp16"),
+                ft_cfg.get("bf16", False),
+                ft_cfg.get("gradient_accumulation_steps", 1),
+            )
             log_section(log, "Stage: fine-tuning (tone + style heads per model)")
             tone_tasks = cfg["tracks"]["tone"].get("tasks", [])
             style_tasks = cfg["tracks"]["style"].get("tasks", [])
@@ -199,6 +258,10 @@ def main() -> None:
                         train_batch_size=int(ft_cfg.get("train_batch_size", 4)),
                         eval_batch_size=int(ft_cfg.get("eval_batch_size", 8)),
                         skip_if_exists=bool(ft_cfg.get("skip_if_exists", True)),
+                        dataloader_num_workers=ft_cfg.get("dataloader_num_workers"),
+                        fp16=ft_cfg.get("fp16"),
+                        bf16=bool(ft_cfg.get("bf16", False)),
+                        gradient_accumulation_steps=int(ft_cfg.get("gradient_accumulation_steps", 1)),
                     )
                 if style_train:
                     style_ckpts[family] = finetune_classifier(
@@ -215,6 +278,10 @@ def main() -> None:
                         train_batch_size=int(ft_cfg.get("train_batch_size", 4)),
                         eval_batch_size=int(ft_cfg.get("eval_batch_size", 8)),
                         skip_if_exists=bool(ft_cfg.get("skip_if_exists", True)),
+                        dataloader_num_workers=ft_cfg.get("dataloader_num_workers"),
+                        fp16=ft_cfg.get("fp16"),
+                        bf16=bool(ft_cfg.get("bf16", False)),
+                        gradient_accumulation_steps=int(ft_cfg.get("gradient_accumulation_steps", 1)),
                     )
         else:
             log.info("Fine-tuning disabled in config.")
@@ -230,6 +297,7 @@ def main() -> None:
                 cfg=cfg,
                 output_root=output_root,
                 finetuned_by_family=None,
+                probing_n_jobs=rt["probing_n_jobs"],
             )
 
         if cfg["tracks"]["tone"].get("enabled", False):
@@ -241,6 +309,7 @@ def main() -> None:
                 cfg=cfg,
                 output_root=output_root,
                 finetuned_by_family={m: tone_ckpts.get(m) for m in models},
+                probing_n_jobs=rt["probing_n_jobs"],
             )
 
         if cfg["tracks"]["style"].get("enabled", False):
@@ -252,12 +321,12 @@ def main() -> None:
                 cfg=cfg,
                 output_root=output_root,
                 finetuned_by_family={m: style_ckpts.get(m) for m in models},
+                probing_n_jobs=rt["probing_n_jobs"],
             )
 
         log_section(log, "Done")
         log.info("All tasks finished. Log: %s", log_path.resolve())
     finally:
-        faulthandler.cancel_dump_traceback_later()
         crash_log.close()
 
 

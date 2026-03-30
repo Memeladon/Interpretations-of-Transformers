@@ -32,6 +32,7 @@ class EmbeddingExtractor:
             self.max_length,
             n_batches,
         )
+        self.model.eval()
 
         for bi, start in enumerate(range(0, len(texts), batch_size)):
             batch_no = bi + 1
@@ -63,7 +64,7 @@ class EmbeddingExtractor:
                     tuple(inputs["attention_mask"].shape),
                 )
                 inputs = {k: v.to(self.device) for k, v in inputs.items()}
-                with torch.no_grad():
+                with torch.inference_mode():
                     outputs = self.model(**inputs, output_hidden_states=True)
                 logger.debug(
                     "encode batch %s/%s forward ok: n_layers=%s layer0=%s",

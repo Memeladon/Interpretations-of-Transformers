@@ -1,28 +1,35 @@
 {
   "seed": 42,
   "cache_dir": ".cache/hf_datasets",
-  "dataset_limit_per_source": null,
+  "dataset_limit_per_source": 1000,
   "models": {
     "bert": true,
     "gpt": false,
     "llama": false
   },
   "finetuning": {
-    "enabled": true,
+    "enabled": false,
     "output_dir": "artifacts/finetuned",
     "skip_if_exists": true,
     "epochs": 2,
     "learning_rate": 2e-5,
     "weight_decay": 0.01,
     "train_batch_size": 4,
-    "eval_batch_size": 8
+    "eval_batch_size": 8,
+    "dataloader_num_workers": null,
+    "fp16": null,
+    "bf16": false,
+    "gradient_accumulation_steps": 1
   },
   "levels": ["text", "sentence", "token"],
   "text_strategy": "mean",
   "batch_size": 8,
   "max_length": 256,
   "runtime": {
-    "cpu_threads": 1
+    "cpu_threads": 0,
+    "torch_interop_threads": null,
+    "tokenizers_parallelism": false,
+    "probing_n_jobs": -1
   },
   "runtime_overrides": {
     "bert": {

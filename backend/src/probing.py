@@ -31,7 +31,7 @@ def classification_y_array(labels: list[Any]) -> np.ndarray:
     return np.array([int(x) for x in labels], dtype=np.int64)
 
 
-def _build_probe(task_type: str, seed: int = 42):
+def _build_probe(task_type: str, seed: int = 42, *, n_jobs: int = 1):
     if task_type == "classification":
         return Pipeline(
             [
@@ -41,7 +41,7 @@ def _build_probe(task_type: str, seed: int = 42):
                     LogisticRegression(
                         max_iter=2000,
                         random_state=seed,
-                        n_jobs=1,
+                        n_jobs=n_jobs,
                     ),
                 ),
             ]
@@ -68,6 +68,8 @@ def train_probes_by_layer(
     task_type: str,
     test_size: float = 0.2,
     seed: int = 42,
+    *,
+    n_jobs: int = 1,
 ) -> dict[str, Any]:
     if task_type == "classification":
         y = classification_y_array(list(labels))
@@ -86,12 +88,14 @@ def train_probes_by_layer(
         )
 
         if task_type == "classification" and y.ndim == 2:
-            model = OneVsRestClassifier(_build_probe(task_type="classification", seed=seed))
+            model = OneVsRestClassifier(
+                _build_probe(task_type="classification", seed=seed, n_jobs=n_jobs)
+            )
             model.fit(x_train, y_train)
             pred = model.predict(x_test)
             score = float(f1_score(y_test, pred, average="macro", zero_division=0))
         else:
-            model = _build_probe(task_type=task_type, seed=seed)
+            model = _build_probe(task_type=task_type, seed=seed, n_jobs=n_jobs)
             model.fit(x_train, y_train)
             pred = model.predict(x_test)
             score = _score(task_type, y_test, pred)

@@ -75,12 +75,12 @@ def _layer_to_sample_matrix(layer_output: Any) -> np.ndarray:
     return np.stack(rows, axis=0)
 
 
-def _build_probe(task_type: str, seed: int) -> Pipeline:
+def _build_probe(task_type: str, seed: int, *, n_jobs: int = 1) -> Pipeline:
     if task_type == "classification":
         return Pipeline(
             [
                 ("scale", StandardScaler()),
-                ("clf", LogisticRegression(max_iter=2000, random_state=seed, n_jobs=1)),
+                ("clf", LogisticRegression(max_iter=2000, random_state=seed, n_jobs=n_jobs)),
             ]
         )
     if task_type == "regression":
@@ -93,9 +93,11 @@ def _build_probe(task_type: str, seed: int) -> Pipeline:
     raise ValueError(f"Unsupported task type: {task_type}")
 
 
-def _fit_probe_directions(x: np.ndarray, y: np.ndarray, task_type: str, seed: int) -> np.ndarray:
+def _fit_probe_directions(
+    x: np.ndarray, y: np.ndarray, task_type: str, seed: int, *, n_jobs: int = 1
+) -> np.ndarray:
     if task_type == "classification" and y.ndim == 2:
-        model = OneVsRestClassifier(_build_probe(task_type="classification", seed=seed))
+        model = OneVsRestClassifier(_build_probe(task_type="classification", seed=seed, n_jobs=n_jobs))
         model.fit(x, y)
         direction_rows: list[np.ndarray] = []
         for est in model.estimators_:
@@ -111,7 +113,7 @@ def _fit_probe_directions(x: np.ndarray, y: np.ndarray, task_type: str, seed: in
                 direction_rows.append(row / (np.linalg.norm(row) + 1e-12))
         return np.stack(direction_rows, axis=0)
 
-    model = _build_probe(task_type=task_type, seed=seed)
+    model = _build_probe(task_type=task_type, seed=seed, n_jobs=n_jobs)
     model.fit(x, y)
     scaler = model.named_steps["scale"]
     clf = model.named_steps["clf"]
@@ -149,6 +151,8 @@ def decompose_embeddings(
     methods: list[str],
     pca_components: int,
     seed: int,
+    *,
+    probing_n_jobs: int = 1,
 ) -> dict[str, Any]:
     x = _layer_to_sample_matrix(layer_outputs[-1])
     if task_type == "classification":
@@ -167,7 +171,9 @@ def decompose_embeddings(
         }
 
     if "probe_directions" in methods or "null_space" in methods:
-        directions = _fit_probe_directions(x=x, y=y, task_type=task_type, seed=seed)
+        directions = _fit_probe_directions(
+            x=x, y=y, task_type=task_type, seed=seed, n_jobs=probing_n_jobs
+        )
         out["probe_directions"] = {
             "components": directions,
             "n_directions": int(directions.shape[0]),
@@ -183,6 +189,8 @@ def intervention_with_decomposition(
     decomposition: dict[str, Any],
     interventions: list[str],
     n_drop: int,
+    *,
+    probing_n_jobs: int = 1,
 ) -> dict[str, Any]:
     x = _layer_to_sample_matrix(layer_outputs[-1])
     out: dict[str, Any] = {}
@@ -190,17 +198,23 @@ def intervention_with_decomposition(
     if "pca" in interventions and "pca" in decomposition:
         pca_components = decomposition["pca"]["components"]
         x_int = _project_out_directions(x, pca_components, n_drop=n_drop)
-        out["pca"] = train_probes_by_layer([x_int], labels, task_type=task_type)
+        out["pca"] = train_probes_by_layer(
+            [x_int], labels, task_type=task_type, n_jobs=probing_n_jobs
+        )
 
     if "probe_directions" in interventions and "probe_directions" in decomposition:
         dirs = decomposition["probe_directions"]["components"]
         x_int = _project_out_directions(x, dirs, n_drop=n_drop)
-        out["probe_directions"] = train_probes_by_layer([x_int], labels, task_type=task_type)
+        out["probe_directions"] = train_probes_by_layer(
+            [x_int], labels, task_type=task_type, n_jobs=probing_n_jobs
+        )
 
     if "null_space" in interventions and "probe_directions" in decomposition:
         dirs = decomposition["probe_directions"]["components"]
         x_null = _null_space_remove(x, dirs)
-        out["null_space"] = train_probes_by_layer([x_null], labels, task_type=task_type)
+        out["null_space"] = train_probes_by_layer(
+            [x_null], labels, task_type=task_type, n_jobs=probing_n_jobs
+        )
 
     return out
 
@@ -263,6 +277,7 @@ def run_embedding_pipeline(
     intervention_methods: list[str] | None = None,
     pca_components: int = 8,
     drop_components: int = 1,
+    probing_n_jobs: int = 1,
 ) -> dict[str, Any]:
     out_dir = Path(output_dir)
     logger.info(
@@ -297,7 +312,9 @@ def run_embedding_pipeline(
         metric = "neg_mse"
     layer_matrices = _layer_outputs_to_matrices(layer_outputs)
     logger.info("Probing: linear probes by layer (%s)", probing_task_type)
-    probing_results = train_probes_by_layer(layer_matrices, labels, task_type=probing_task_type)
+    probing_results = train_probes_by_layer(
+        layer_matrices, labels, task_type=probing_task_type, n_jobs=probing_n_jobs
+    )
     if probing_results:
         log_layer_scores(
             logger,
@@ -316,6 +333,7 @@ def run_embedding_pipeline(
         methods=decomposition_methods,
         pca_components=pca_components,
         seed=seed,
+        probing_n_jobs=probing_n_jobs,
     )
     _log_decomposition_summary(decomposition)
 
@@ -327,6 +345,7 @@ def run_embedding_pipeline(
         decomposition=decomposition,
         interventions=intervention_methods,
         n_drop=drop_components,
+        probing_n_jobs=probing_n_jobs,
     )
     _log_intervention_scores(intervention_scores, metric=metric)
 

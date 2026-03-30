@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 from typing import Any, Literal
 
@@ -20,6 +21,24 @@ from transformers import (
 logger = logging.getLogger(__name__)
 
 ProblemType = Literal["single_label", "multi_label"]
+
+
+def _resolve_dataloader_workers(requested: int | None) -> int:
+    if requested is not None:
+        return max(0, int(requested))
+    if os.name == "nt":
+        return 0
+    return min(8, max(1, os.cpu_count() or 1))
+
+
+def _resolve_mixed_precision(fp16: bool | None, bf16: bool) -> tuple[bool, bool]:
+    if not torch.cuda.is_available():
+        return False, False
+    if bf16:
+        return False, bool(torch.cuda.is_bf16_supported())
+    if fp16 is False:
+        return False, False
+    return True, False
 
 
 def _compute_num_labels_single(labels: list[int]) -> int:
@@ -68,6 +87,10 @@ def finetune_classifier(
     train_batch_size: int,
     eval_batch_size: int,
     skip_if_exists: bool,
+    dataloader_num_workers: int | None = None,
+    fp16: bool | None = None,
+    bf16: bool = False,
+    gradient_accumulation_steps: int = 1,
 ) -> Path:
     """
     Дообучение под тональность (single_label) или стиль/emotion (multi_label).
@@ -144,6 +167,8 @@ def finetune_classifier(
             "f1_macro": float(f1_score(y_true, pred_mult, average="macro", zero_division=0)),
         }
 
+    workers = _resolve_dataloader_workers(dataloader_num_workers)
+    use_fp16, use_bf16 = _resolve_mixed_precision(fp16, bf16)
     args = TrainingArguments(
         output_dir=str(out / "trainer_tmp"),
         learning_rate=learning_rate,
@@ -151,6 +176,10 @@ def finetune_classifier(
         num_train_epochs=num_train_epochs,
         per_device_train_batch_size=train_batch_size,
         per_device_eval_batch_size=eval_batch_size,
+        gradient_accumulation_steps=max(1, int(gradient_accumulation_steps)),
+        dataloader_num_workers=workers,
+        fp16=use_fp16,
+        bf16=use_bf16,
         seed=int(seed),
         save_strategy="no",
         logging_steps=50,
@@ -168,7 +197,15 @@ def finetune_classifier(
         compute_metrics=_metrics,
     )
 
-    logger.info("finetune: start -> %s (problem=%s, n_labels=%s)", out.resolve(), problem_type, num_labels)
+    logger.info(
+        "finetune: start -> %s (problem=%s, n_labels=%s workers=%s fp16=%s bf16=%s)",
+        out.resolve(),
+        problem_type,
+        num_labels,
+        workers,
+        use_fp16,
+        use_bf16,
+    )
     trainer.train()
     trainer.save_model(str(out))
     tokenizer.save_pretrained(str(out))
