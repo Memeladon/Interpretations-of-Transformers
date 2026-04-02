@@ -28,12 +28,20 @@ def checkpoint_dir_ready(ckpt: Path) -> bool:
     )
 
 
-def load_classification_head(ckpt: Path, device: torch.device) -> tuple[Any, Any]:
+def load_classification_head(
+    ckpt: Path,
+    device: torch.device,
+    *,
+    attn_implementation: str | None = None,
+) -> tuple[Any, Any]:
     ckpt = Path(ckpt)
     tokenizer = AutoTokenizer.from_pretrained(str(ckpt))
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForSequenceClassification.from_pretrained(str(ckpt))
+    extra: dict[str, Any] = {}
+    if attn_implementation is not None:
+        extra["attn_implementation"] = attn_implementation
+    model = AutoModelForSequenceClassification.from_pretrained(str(ckpt), **extra)
     model.to(device)
     model.eval()
     return tokenizer, model
@@ -84,6 +92,35 @@ def emotions_from_logits(
         key=lambda x: -x[1],
     )[:top_k]
     return {"above_threshold": above, "top_k": ranked}
+
+
+def forward_classifier_with_attentions(
+    text: str,
+    *,
+    tokenizer,
+    model,
+    device: torch.device,
+    max_length: int,
+) -> tuple[torch.Tensor, tuple[torch.Tensor, ...], torch.Tensor, torch.Tensor]:
+    """
+    Один forward с output_attentions=True (нужен attn_implementation='eager' при загрузке модели).
+    Возвращает logits, attentions (по одному тензору на слой), input_ids, attention_mask.
+    """
+    inputs = tokenizer(
+        text,
+        return_tensors="pt",
+        truncation=True,
+        max_length=max_length,
+        padding=True,
+    )
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+    with torch.inference_mode():
+        out = model(**inputs, output_attentions=True)
+    if out.attentions is None:
+        raise RuntimeError(
+            "Модель не вернула attention. Перезагрузите чекпоинт с attn_implementation='eager'."
+        )
+    return out.logits, out.attentions, inputs["input_ids"], inputs["attention_mask"]
 
 
 def forward_classification(

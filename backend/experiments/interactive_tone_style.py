@@ -1,16 +1,17 @@
 """
-Интерактив: ввод текста в консоль → тональность (tone) и стиль/эмоции (style) дообученными головами,
-затем визуализация mean-pooled эмбеддингов по каждому слою (отдельно для чекпоинта tone и style).
+Интерактив: ввод текста → тональность и эмоции дообученными головами,
+затем графики self-attention по каждому слою: на какие токены смотрит запрос
+([CLS] у BERT или последний токен у causal), отдельно для чекпоинтов tone и style.
 
-Запуск из каталога backend (как run_exp):
+Запуск из каталога backend:
   uv run experiments/interactive_tone_style.py
-  uv run experiments/interactive_tone_style.py --family gpt
-  uv run experiments/interactive_tone_style.py --no-viz
+  uv run experiments/interactive_tone_style.py --family gpt --no-viz
 
 Нужны чекпоинты после fine-tuning:
   artifacts/finetuned/<family>/tone
   artifacts/finetuned/<family>/style
-См. experiment_config.json → finetuning.enabled и run_exp.
+
+Модели загружаются с attn_implementation=eager, чтобы получить веса attention.
 """
 
 from __future__ import annotations
@@ -37,15 +38,14 @@ if os.name == "nt":
 
 import torch
 
+from src.attention_layer_viz import plot_attention_per_layer_tone_style
 from src.datasets_load import GO_EMOTIONS_BINARY_COLUMNS
 from src.experiment_config import load_experiment_config
-from src.layer_embedding_viz import plot_tone_style_layer_embeddings
 from src.tone_style_inference import (
     checkpoint_dir_ready,
     emotion_label_names,
     emotions_from_logits,
-    forward_classification,
-    hidden_states_to_layer_matrix,
+    forward_classifier_with_attentions,
     load_classification_head,
     sentiment_from_logits,
 )
@@ -91,19 +91,13 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument(
         "--no-viz",
         action="store_true",
-        help="Не открывать окно matplotlib с эмбеддингами по слоям",
+        help="Не открывать окно matplotlib с attention по слоям",
     )
     p.add_argument(
         "--save-viz-dir",
         type=Path,
         default=None,
         help="Сохранять PNG визуализаций в каталог (имя файла с timestamp)",
-    )
-    p.add_argument(
-        "--heatmap-dims",
-        type=int,
-        default=48,
-        help="Сколько первых размерностей показывать на теплокарте слой×dim",
     )
     return p.parse_args()
 
@@ -150,10 +144,10 @@ def main() -> None:
 
     log.info("Устройство: %s", device)
     log.info("Семейство: %s, max_length=%s", family, max_length)
-    log.info("Загрузка головы тональности: %s", tone_dir.resolve())
-    tok_tone, model_tone = load_classification_head(tone_dir, device)
-    log.info("Загрузка головы эмоций: %s", style_dir.resolve())
-    tok_style, model_style = load_classification_head(style_dir, device)
+    log.info("Загрузка головы тональности (eager attention): %s", tone_dir.resolve())
+    tok_tone, model_tone = load_classification_head(tone_dir, device, attn_implementation="eager")
+    log.info("Загрузка головы эмоций (eager attention): %s", style_dir.resolve())
+    tok_style, model_style = load_classification_head(style_dir, device, attn_implementation="eager")
 
     n_emotion = int(getattr(model_style.config, "num_labels", 0))
     emotion_names = emotion_label_names(n_emotion, list(GO_EMOTIONS_BINARY_COLUMNS))
@@ -172,40 +166,36 @@ def main() -> None:
             print("Выход.")
             break
 
-        logits_t, hidden_t, mask_t = forward_classification(
-            line,
-            tokenizer=tok_tone,
-            model=model_tone,
-            device=device,
-            max_length=max_length,
-            with_hidden_states=True,
-        )
-        assert hidden_t is not None and mask_t is not None
-        tone_label, tone_id, tone_p = sentiment_from_logits(logits_t, model_tone.config)
-        tone_layers = hidden_states_to_layer_matrix(hidden_t, mask_t)
+        try:
+            logits_t, attentions_t, ids_t, mask_t = forward_classifier_with_attentions(
+                line,
+                tokenizer=tok_tone,
+                model=model_tone,
+                device=device,
+                max_length=max_length,
+            )
+            logits_s, attentions_s, ids_s, mask_s = forward_classifier_with_attentions(
+                line,
+                tokenizer=tok_style,
+                model=model_style,
+                device=device,
+                max_length=max_length,
+            )
+        except RuntimeError as exc:
+            print(f"  Ошибка forward: {exc}")
+            print("—" * 60)
+            continue
 
-        logits_s, hidden_s, mask_s = forward_classification(
-            line,
-            tokenizer=tok_style,
-            model=model_style,
-            device=device,
-            max_length=max_length,
-            with_hidden_states=True,
-        )
-        assert hidden_s is not None and mask_s is not None
+        tone_label, tone_id, tone_p = sentiment_from_logits(logits_t, model_tone.config)
         emo = emotions_from_logits(
             logits_s,
             emotion_names,
             threshold=args.threshold,
             top_k=5,
         )
-        style_layers = hidden_states_to_layer_matrix(hidden_s, mask_s)
 
         print()
         print(f"  Тональность: {tone_label} (id={tone_id}, уверенность {tone_p:.3f})")
-        print(
-            f"  Слои (тональность): {tone_layers.shape[0]} слоёв, размерность {tone_layers.shape[1]}"
-        )
         if emo["above_threshold"]:
             joined = ", ".join(f"{name} ({p:.3f})" for name, p in emo["above_threshold"])
             print(f"  Эмоции (≥ {args.threshold:g}): {joined}")
@@ -213,9 +203,7 @@ def main() -> None:
             print(f"  Эмоции (≥ {args.threshold:g}): нет; топ по вероятности:")
             for name, p in emo["top_k"][:5]:
                 print(f"    · {name}: {p:.3f}")
-        print(
-            f"  Слои (стиль): {style_layers.shape[0]} слоёв, размерность {style_layers.shape[1]}"
-        )
+        print(f"  Слоёв attention: {len(attentions_t)} (тональность и стиль должны совпадать с архитектурой)")
 
         save_path = None
         if args.save_viz_dir is not None:
@@ -223,27 +211,43 @@ def main() -> None:
 
             args.save_viz_dir.mkdir(parents=True, exist_ok=True)
             safe_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-            save_path = args.save_viz_dir / f"layers_{safe_ts}.png"
+            save_path = args.save_viz_dir / f"attention_layers_{safe_ts}.png"
 
         if not args.no_viz:
-            print("  Открываю график эмбеддингов по слоям (закройте окно — вернётесь к вводу).")
-            plot_tone_style_layer_embeddings(
-                tone_layers,
-                style_layers,
+            print(
+                "  Открываю графики внимания по слоям (закройте окно — вернётесь к вводу).\n"
+                "  Каждая строка — слой трансформера; слева тональность, справа стиль; "
+                "столбцы — усреднение по головам, вес на ключ-токене."
+            )
+            note = plot_attention_per_layer_tone_style(
+                attentions_t,
+                attentions_s,
+                input_ids_tone=ids_t,
+                mask_tone=mask_t,
+                tok_tone=tok_tone,
+                input_ids_style=ids_s,
+                mask_style=mask_s,
+                tok_style=tok_style,
                 text_preview=line,
                 show=True,
                 save_path=save_path,
-                heatmap_dims=args.heatmap_dims,
             )
+            print(f"  {note}")
         elif save_path is not None:
-            plot_tone_style_layer_embeddings(
-                tone_layers,
-                style_layers,
+            note = plot_attention_per_layer_tone_style(
+                attentions_t,
+                attentions_s,
+                input_ids_tone=ids_t,
+                mask_tone=mask_t,
+                tok_tone=tok_tone,
+                input_ids_style=ids_s,
+                mask_style=mask_s,
+                tok_style=tok_style,
                 text_preview=line,
                 show=False,
                 save_path=save_path,
-                heatmap_dims=args.heatmap_dims,
             )
+            print(f"  {note}")
             print(f"  График сохранён: {save_path.resolve()}")
 
         print("—" * 60)

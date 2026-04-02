@@ -37,8 +37,8 @@
       "max_length": 256
     },
     "gpt": {
-      "batch_size": 4,
-      "max_length": 192
+      "batch_size": 8,
+      "max_length": 512
     },
     "llama": {
       "batch_size": 2,
