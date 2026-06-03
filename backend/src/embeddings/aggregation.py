@@ -1,14 +1,8 @@
-import torch
 import re
 
+import torch
 
-def mean_pooling(hidden: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
-    mask = mask.unsqueeze(-1).expand(hidden.size()).float()
-    return (hidden * mask).sum(1) / mask.sum(1).clamp(min=1e-9)
-
-
-def cls_pooling(hidden: torch.Tensor) -> torch.Tensor:
-    return hidden[:, 0]
+from src.embeddings.pooling import apply_pooling, cls_pooling, mean_pooling
 
 
 def token_level(hidden: torch.Tensor, mask: torch.Tensor) -> list[torch.Tensor]:
@@ -20,10 +14,8 @@ def token_level(hidden: torch.Tensor, mask: torch.Tensor) -> list[torch.Tensor]:
 
 
 def text_level(hidden: torch.Tensor, mask: torch.Tensor, strategy: str = "mean") -> torch.Tensor:
-    if strategy == "mean":
-        return mean_pooling(hidden, mask)
-    if strategy == "cls":
-        return cls_pooling(hidden)
+    if strategy in ("mean", "cls", "max", "attention"):
+        return apply_pooling(hidden, mask, strategy)
     raise ValueError(f"Unknown text-level strategy: {strategy}")
 
 

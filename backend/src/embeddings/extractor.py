@@ -20,6 +20,7 @@ class EmbeddingExtractor:
     def encode(
         self,
         texts: List[str],
+        text_pairs: List[str] | None = None,
         batch_size: int = 8,
         *,
         level: str | None = None,
@@ -35,6 +36,9 @@ class EmbeddingExtractor:
         if level is None:
             all_hidden: list[list[torch.Tensor]] = []
             all_masks: list[torch.Tensor] = []
+
+        if text_pairs is not None and len(text_pairs) != len(texts):
+            raise ValueError("text_pairs must have the same length as texts")
 
         n = len(texts)
         n_batches = max(1, (n + batch_size - 1) // batch_size)
@@ -52,9 +56,19 @@ class EmbeddingExtractor:
         # При level!=None накапливаем агрегированные представления для каждого слоя.
         layer_outputs_acc: list[list] | None = None
 
+        effective_level = level
+        if level == "sentence" and text_pairs is not None:
+            # Для pair-входа (A [SEP] B) границы предложений внутри пары не восстанавливаем:
+            # безопасно используем text-level pooling на всём входе.
+            logger.info(
+                "Pair task with level='sentence': using text-level pooling on the full pair input"
+            )
+            effective_level = "text"
+
         for bi, start in enumerate(range(0, len(texts), batch_size)):
             batch_no = bi + 1
             batch_texts = texts[start : start + batch_size]
+            batch_text_pairs = None if text_pairs is None else text_pairs[start : start + batch_size]
             chars_total = sum(len(t) for t in batch_texts)
             logger.debug(
                 "encode batch %s/%s start: idx=[%s:%s], samples=%s, total_chars=%s",
@@ -66,14 +80,25 @@ class EmbeddingExtractor:
                 chars_total,
             )
             try:
-                inputs = self.tokenizer(
-                    batch_texts,
-                    return_tensors="pt",
-                    padding="max_length",
-                    truncation=True,
-                    max_length=self.max_length,
-                    return_attention_mask=True,
-                )
+                if batch_text_pairs is None:
+                    inputs = self.tokenizer(
+                        batch_texts,
+                        return_tensors="pt",
+                        padding="max_length",
+                        truncation=True,
+                        max_length=self.max_length,
+                        return_attention_mask=True,
+                    )
+                else:
+                    inputs = self.tokenizer(
+                        batch_texts,
+                        batch_text_pairs,
+                        return_tensors="pt",
+                        padding="max_length",
+                        truncation=True,
+                        max_length=self.max_length,
+                        return_attention_mask=True,
+                    )
                 logger.debug(
                     "encode batch %s/%s tokenized: input_ids=%s attention_mask=%s",
                     batch_no,
@@ -120,7 +145,7 @@ class EmbeddingExtractor:
                     agg = aggregate_layer(
                         hidden=layer_tensor,
                         mask=batch_mask,
-                        level=level,
+                        level=effective_level,
                         tokenizer=self.tokenizer,
                         texts=batch_texts,
                         strategy=strategy,
@@ -152,7 +177,7 @@ class EmbeddingExtractor:
 
         assert layer_outputs_acc is not None
         # Для text уровня нам нужны тензоры (N, hidden) вместо списка по батчам.
-        if level == "text":
+        if effective_level == "text":
             layer_outputs = [torch.cat(parts, dim=0) for parts in layer_outputs_acc]
         else:
             layer_outputs = layer_outputs_acc

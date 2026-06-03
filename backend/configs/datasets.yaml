@@ -1,0 +1,32 @@
+# Спецификации источников данных
+# По умолчанию используются встроенные HuggingFace-мапперы в src/datasets_load.py.
+
+default_backend: huggingface
+
+tracks:
+  semantic:
+    - type: huggingface
+      dataset_name: ai-forever/ru-stsbenchmark-sts
+      split: train
+      source_name: ru_sts
+    - type: huggingface
+      dataset_name: MilyaShams/qqp-ru_10k
+      split: train
+      source_name: ru_qqp
+  tone:
+    - type: huggingface
+      dataset_name: MonoHime/ru_sentiment_dataset
+      split: train
+      source_name: sentiment
+  style:
+    - type: huggingface
+      dataset_name: seara/ru_go_emotions
+      config_name: raw
+      split: train
+      source_name: emotion
+
+# Пример локального JSONL (поля: text, y_style, y_semantic, metadata.*):
+# tracks:
+#   tone:
+#     - type: jsonl
+#       path: data/raw/tone_custom.jsonl

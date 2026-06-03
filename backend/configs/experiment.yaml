@@ -1,0 +1,183 @@
+﻿# Декларативный конфиг эксперимента
+
+run:
+  id: null  # null → автогенерация в runs/<timestamp>/
+
+seed: 42
+batch_size: 8
+device: auto  # auto | cuda | cpu
+
+model:
+  active_family: bert
+  families:
+    bert:
+      enabled: true
+      name: bert-base-multilingual-cased
+      path: null  # локальный путь или HF id; path имеет приоритет над name
+    gpt:
+      enabled: false
+      name: ai-forever/rugpt3small_based_on_gpt2
+      path: null
+    llama:
+      enabled: false
+      name: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+      path: null
+
+tokenization:
+  max_length: 256
+  padding: max_length
+  truncation: true
+
+layers:
+  mode: all  # all | last_n | explicit
+  last_n: null
+  indices: null  # например [0, 6, 11]
+
+pooling:
+  strategy: mean  # mean | cls | max | attention
+  levels:
+    - text
+    - sentence
+    - token
+
+normalization:
+  probing_scaler: standard  # standard | none
+  embeddings:
+    method: none  # none | center | l2 | pca_remove | whitening
+    pca_components: 8
+
+probing:
+  test_size: 0.2
+  n_jobs: -1
+  max_iter: 2000
+  estimator: logistic  # logistic | svm | ridge | linear
+  estimators: [logistic, svm, ridge, linear]
+  use_predefined_splits: true
+  fail_on_single_class_test: true
+
+baselines:
+  enabled: true
+  estimators: [logistic, svm]
+  tolerance: 0.05
+  domain_vocabulary: []
+  char_ngram_dim: 256
+
+interventions:
+  pca_components: 8
+  enabled_methods:
+    - pca
+    - probe_directions
+    - null_space
+  methods:
+    - pca
+    - probe_directions
+    - null_space
+  drop_components: 1
+
+concept_directions:
+  methods: [probe_weight, mean_difference, pca, class_separation]
+  pca_components: 8
+
+extraction:
+  use_amp: false
+  chunk_size: null
+  cache_dir: artifacts/embedding_cache
+  output_attentions: true
+
+artifacts:
+  root: artifacts
+  embeddings: artifacts/embeddings
+  data_processed: data/processed
+  data_splits: data/splits
+  reports: reports
+  finetuned: artifacts/finetuned
+  logs: logs
+  runs: runs
+
+data:
+  cache_dir: .cache/hf_datasets
+  limit_per_source: 600
+  sources:
+    default: huggingface
+    # Пример локального файла (раскомментировать и отключить HF для трека):
+    # tracks:
+    #   tone:
+    #     type: jsonl
+    #     path: data/raw/tone.jsonl
+  preprocessing:
+    version: "1.0"
+    clean_text: true
+    normalize_whitespace: true
+    deduplicate: true
+    filter_empty: true
+    max_text_length: 10000
+    balance_classes: false
+    balance_max_per_class: null
+  leakage:
+    enabled: true
+    group_splits: true
+    check_duplicate_text: true
+    check_pair_id_overlap: true
+    check_source_overlap: true
+    fail_on_violation: true
+
+splits:
+  test_size: 0.2
+  val_size: 0.1
+  stratify: true
+  fail_on_coverage_error: true
+  min_samples_per_class:
+    train: 2
+    val: 1
+    test: 2
+  min_positive_per_label: 1
+  min_negative_per_label: 1
+  min_global_label_frequency_for_eval: 5
+
+finetuning:
+  enabled: true
+  output_dir: artifacts/finetuned
+  skip_if_exists: true
+  epochs: 2
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  train_batch_size: 4
+  eval_batch_size: 8
+  dataloader_num_workers: null
+  fp16: null
+  bf16: false
+  gradient_accumulation_steps: 1
+
+runtime:
+  cpu_threads: 0
+  torch_interop_threads: null
+  tokenizers_parallelism: false
+
+runtime_overrides:
+  bert:
+    batch_size: 8
+    max_length: 256
+  gpt:
+    batch_size: 8
+    max_length: 512
+  llama:
+    batch_size: 2
+    max_length: 128
+
+robustness:
+  enabled: true
+  bootstrap_seeds: [42, 43, 44]
+  subsample_fraction: 0.8
+  bootstrap_n_resamples: 200
+  confidence_level: 0.95
+
+tracks:
+  semantic:
+    enabled: true
+    tasks: [semantic_similarity, paraphrase]
+  tone:
+    enabled: true
+    tasks: [sentiment]
+  style:
+    enabled: true
+    tasks: [emotion]

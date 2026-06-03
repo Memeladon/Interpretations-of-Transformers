@@ -6,3 +6,14 @@ artifacts/
 .env.development.local
 .env.test.local
 .env.production.local
+
+data/processed/*
+data/splits/*
+data/raw/*
+!data/**/.gitkeep
+logs/*
+!logs/.gitkeep
+runs/*
+!runs/.gitkeep
+reports/*
+!reports/.gitkeep

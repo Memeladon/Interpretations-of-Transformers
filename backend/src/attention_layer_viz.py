@@ -1,6 +1,5 @@
 """
-Визуализация self-attention по слоям: на какие токены смотрит «запрос»
-([CLS] для энкодера или последний токен для causal).
+Запрос: [CLS] → токены (энкодер) или последний токен → токены (causal).
 """
 
 from __future__ import annotations
@@ -76,12 +75,13 @@ def plot_attention_per_layer_tone_style(
     tok_style: Any,
     text_preview: str,
     show: bool = True,
-    save_path: Path | None = None,
-) -> str:
+    save_dir: Path | None = None,
+) -> tuple[str, list[Path]]:
     """
-    Одна фигура: строка = слой, столбец = тональность | стиль.
-    Горизонтальные столбцы: вес внимания на каждый токен.
-    Возвращает строку-пояснение (одинаковая логика запроса для обеих моделей в типичном случае).
+
+    - ``show=True`` — последовательно открывается окно на каждый слой (закрыть → следующий).
+    - ``save_dir`` — каталог; файлы ``layer_00.png``, ``layer_01.png``, …
+
     """
     n_t = len(attentions_tone)
     n_s = len(attentions_style)
@@ -90,12 +90,13 @@ def plot_attention_per_layer_tone_style(
     n_layers = n_t
 
     query_note = ""
+    saved: list[Path] = []
 
-    fig, axes = plt.subplots(n_layers, 2, figsize=(14, max(6.0, 1.35 * n_layers)), squeeze=False)
-    fig.suptitle(
-        f"Self-attention по слоям (усреднение по головам)\n{_truncate_title(text_preview)}",
-        fontsize=11,
-    )
+    if save_dir is not None:
+        save_dir = Path(save_dir)
+        save_dir.mkdir(parents=True, exist_ok=True)
+
+    preview = _truncate_title(text_preview)
 
     for layer_idx in range(n_layers):
         tokens_t, sal_t, desc_t = salience_from_attention_layer(
@@ -107,35 +108,42 @@ def plot_attention_per_layer_tone_style(
         if layer_idx == 0:
             query_note = f"Запрос: {desc_t} (тональность) · {desc_s} (стиль)"
 
+        ntok = max(len(tokens_t), len(tokens_s), 4)
+        fig_h = min(22.0, max(4.2, 0.32 * ntok + 2.0))
+        fig, axes = plt.subplots(1, 2, figsize=(13.5, fig_h))
+
         y_pos = np.arange(len(tokens_t))
-        axes[layer_idx, 0].barh(y_pos, sal_t, color="steelblue", height=0.65)
-        axes[layer_idx, 0].set_yticks(y_pos)
-        axes[layer_idx, 0].set_yticklabels(tokens_t, fontsize=7)
-        axes[layer_idx, 0].invert_yaxis()
-        axes[layer_idx, 0].set_xlabel("вес внимания")
-        axes[layer_idx, 0].set_title(f"Тональность · слой {layer_idx}", fontsize=9)
-        axes[layer_idx, 0].set_xlim(0, max(0.05, float(sal_t.max()) * 1.15))
+        axes[0].barh(y_pos, sal_t, color="steelblue", height=0.65)
+        axes[0].set_yticks(y_pos)
+        axes[0].set_yticklabels(tokens_t, fontsize=8)
+        axes[0].invert_yaxis()
+        axes[0].set_xlabel("вес внимания (среднее по головам)")
+        axes[0].set_title("Тональность", fontsize=10)
+        axes[0].set_xlim(0, max(0.05, float(sal_t.max()) * 1.15))
 
         y_pos_s = np.arange(len(tokens_s))
-        axes[layer_idx, 1].barh(y_pos_s, sal_s, color="darkorange", height=0.65)
-        axes[layer_idx, 1].set_yticks(y_pos_s)
-        axes[layer_idx, 1].set_yticklabels(tokens_s, fontsize=7)
-        axes[layer_idx, 1].invert_yaxis()
-        axes[layer_idx, 1].set_xlabel("вес внимания")
-        axes[layer_idx, 1].set_title(f"Стиль (эмоции) · слой {layer_idx}", fontsize=9)
-        axes[layer_idx, 1].set_xlim(0, max(0.05, float(sal_s.max()) * 1.15))
+        axes[1].barh(y_pos_s, sal_s, color="darkorange", height=0.65)
+        axes[1].set_yticks(y_pos_s)
+        axes[1].set_yticklabels(tokens_s, fontsize=8)
+        axes[1].invert_yaxis()
+        axes[1].set_xlabel("вес внимания (среднее по головам)")
+        axes[1].set_title("Стиль (эмоции)", fontsize=10)
+        axes[1].set_xlim(0, max(0.05, float(sal_s.max()) * 1.15))
 
-    fig.text(0.5, 0.01, query_note, ha="center", fontsize=8, style="italic")
-    fig.tight_layout(rect=(0, 0.03, 1, 0.96))
+        fig.suptitle(
+            f"Слой {layer_idx} (всего слоёв: {n_layers}) · Self-attention\n{preview}",
+            fontsize=11,
+        )
+        fig.text(0.5, 0.02, query_note, ha="center", fontsize=8, style="italic")
+        fig.tight_layout(rect=(0, 0.06, 1, 0.94))
 
-    if save_path is not None:
-        save_path = Path(save_path)
-        save_path.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(save_path, dpi=140, bbox_inches="tight")
+        if save_dir is not None:
+            out = save_dir / f"layer_{layer_idx:02d}.png"
+            fig.savefig(out, dpi=140, bbox_inches="tight")
+            saved.append(out)
 
-    if show:
-        plt.show()
-    else:
+        if show:
+            plt.show()
         plt.close(fig)
 
-    return query_note
+    return query_note, saved

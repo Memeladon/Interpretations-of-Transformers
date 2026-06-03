@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import logging
 import random
+import time
 from pathlib import Path
 from typing import Any, Callable, Literal
 
-from datasets import Dataset, load_dataset
+from datasets import Dataset, DownloadConfig, load_dataset
 
 logger = logging.getLogger(__name__)
 
@@ -289,8 +290,38 @@ def _load_single_dataset(
     config_name: str | None,
     split: str,
     cache_dir: str | Path,
+    *,
+    max_retries: int = 5,
+    retry_pause: float = 5.0,
 ) -> Dataset:
-    return load_dataset(dataset_name, name=config_name, split=split, cache_dir=str(cache_dir))
+    download_config = DownloadConfig(max_retries=max_retries, resume_download=True)
+    last_exc: Exception | None = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            return load_dataset(
+                dataset_name,
+                name=config_name,
+                split=split,
+                cache_dir=str(cache_dir),
+                download_config=download_config,
+            )
+        except Exception as exc:
+            last_exc = exc
+            if attempt >= max_retries:
+                break
+            wait = retry_pause * attempt
+            logger.warning(
+                "HF load failed (%s/%s) for %s split=%s: %s; retry in %.0fs",
+                attempt,
+                max_retries,
+                dataset_name,
+                split,
+                exc,
+                wait,
+            )
+            time.sleep(wait)
+    assert last_exc is not None
+    raise last_exc
 
 
 def _normalize_dataset(
