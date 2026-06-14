@@ -200,6 +200,7 @@ ARCHITECTURE.md
 
 .cursorignore
 .cursorindexingignore
+.cursor/
 
 # Marimo
 marimo/_static/
