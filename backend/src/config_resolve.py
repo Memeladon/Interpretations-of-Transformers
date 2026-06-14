@@ -204,7 +204,3 @@ def model_name_for_family(cfg: dict[str, Any], family: str) -> str:
     from src.language_models.loader import MODEL_REGISTRY
 
     return MODEL_REGISTRY[family]
-
-
-def artifact_path(cfg: dict[str, Any], key: str) -> Path:
-    return Path(cfg["artifacts"][key])

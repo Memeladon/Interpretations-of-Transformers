@@ -1,4 +1,4 @@
-"""Анализ устойчивости layer-wise probing"""
+"""Этап 4: Анализ устойчивости layer-wise probing"""
 
 from __future__ import annotations
 

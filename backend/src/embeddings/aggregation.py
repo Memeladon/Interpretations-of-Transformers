@@ -2,7 +2,7 @@ import re
 
 import torch
 
-from src.embeddings.pooling import apply_pooling, cls_pooling, mean_pooling
+from src.embeddings.pooling import apply_pooling
 
 
 def token_level(hidden: torch.Tensor, mask: torch.Tensor) -> list[torch.Tensor]:
@@ -66,10 +66,6 @@ def sentence_level(
             cursor = end
         results.append(torch.stack(vectors))
     return results
-
-
-def token_level_raw(hidden):
-    return hidden
 
 
 def aggregate_layer(

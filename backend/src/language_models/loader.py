@@ -62,10 +62,3 @@ def load_language_model(
     model.to(device)
     logger.info("model ready: family=%s name=%s", family, model_name)
     return model, tokenizer, device
-
-
-def base_model_name_for_family(model_family: str) -> str:
-    family = model_family.lower()
-    if family not in MODEL_REGISTRY:
-        raise ValueError(f"Unknown model family: {model_family}")
-    return MODEL_REGISTRY[family]

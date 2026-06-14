@@ -166,12 +166,3 @@ def ensure_processed_tracks(
         save_processed_records(records, dest)
         out[track] = dest
     return out
-
-
-def prepare_all_tracks(
-    cfg: dict[str, Any],
-    *,
-    paths: ProjectPaths | None = None,
-    force: bool = False,
-) -> dict[str, Path]:
-    return ensure_processed_tracks(cfg, paths=paths, force=force)

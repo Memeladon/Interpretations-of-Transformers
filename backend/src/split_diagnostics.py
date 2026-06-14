@@ -61,28 +61,6 @@ def group_label_vector(
     return np.array([int(values[int(np.argmax(counts))])], dtype=np.float64)
 
 
-def group_stratify_key(
-    rows: list[dict[str, Any]],
-    member_indices: list[int],
-    track: str,
-) -> str:
-    """Ключ страты для stratified split по группам."""
-    sub = [rows[i] for i in member_indices]
-    task_type, labels = probing_labels_for_track(sub, track)
-    if task_type == "regression":
-        vals = [float(x) for x in labels]
-        bucket = int(np.median(vals) * 2)  # грубые корзины для регрессии
-        return f"reg:{bucket}"
-    if labels and isinstance(labels[0], (list, tuple)):
-        active: set[int] = set()
-        for lab in labels:
-            for idx in lab:
-                active.add(int(idx))
-        return "ml:" + ",".join(str(i) for i in sorted(active))
-    counter = Counter(int(x) for x in labels)
-    return f"cls:{counter.most_common(1)[0][0]}"
-
-
 def class_distribution_report(
     rows: list[dict[str, Any]],
     indices: dict[str, list[int]],

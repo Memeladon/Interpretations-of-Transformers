@@ -1,10 +1,5 @@
 """
 Просмотр датасетов: сырой HF -> нормализованная запись -> (опционально) батч токенизатора как вход модели.
-
-Запуск из каталога backend:
-  uv run experiments/inspect_datasets.py
-  uv run experiments/inspect_datasets.py --track tone --n 5
-  uv run experiments/inspect_datasets.py --track semantic --show-tokens --model-family bert
 """
 
 from __future__ import annotations

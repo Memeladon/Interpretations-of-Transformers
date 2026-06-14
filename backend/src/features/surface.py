@@ -101,15 +101,3 @@ class SurfaceFeatureExtractor:
             pair = r.get("text_pair")
             rows.append(self.extract_vector(r["text"], text_pair=pair))
         return np.stack(rows, axis=0)
-
-
-def extract_surface_matrix(
-    records: list[dict[str, Any]],
-    *,
-    domain_vocabulary: list[str] | None = None,
-    char_ngram_dim: int = 256,
-) -> np.ndarray:
-    return SurfaceFeatureExtractor(
-        domain_vocabulary=domain_vocabulary,
-        char_ngram_dim=char_ngram_dim,
-    ).extract_batch(records)

@@ -168,8 +168,6 @@ robustness:
   enabled: true
   bootstrap_seeds: [42, 43, 44]
   subsample_fraction: 0.8
-  bootstrap_n_resamples: 200
-  confidence_level: 0.95
 
 tracks:
   semantic:

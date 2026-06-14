@@ -68,6 +68,7 @@ def _split_groups_stratified(
     test_size: float,
     val_size: float,
     seed: int,
+    min_eval_frequency: int = 5,
 ) -> dict[str, list[int]]:
     """Strict stratified split по leakage-группам (single-label и multilabel)."""
     group_keys = list(groups.keys())
@@ -78,7 +79,7 @@ def _split_groups_stratified(
         test_size=test_size,
         val_size=val_size,
         seed=seed,
-        min_eval_frequency=5,
+        min_eval_frequency=min_eval_frequency,
     )
     return _indices_from_group_keys(groups, train_keys, val_keys, test_keys)
 
@@ -92,6 +93,7 @@ def build_task_split(
     seed: int = 42,
     group_by_leakage: bool = True,
     stratify: bool = True,
+    min_eval_frequency: int = 5,
 ) -> dict[str, list[int]]:
     """
     Индексы train/val/test.
@@ -110,6 +112,7 @@ def build_task_split(
                 test_size=test_size,
                 val_size=val_size,
                 seed=seed,
+                min_eval_frequency=min_eval_frequency,
             )
         else:
             train_keys, test_keys = train_test_split(
@@ -213,6 +216,9 @@ def build_splits_for_track(
             seed=seed,
             group_by_leakage=group_by,
             stratify=stratify,
+            min_eval_frequency=int(
+                splits_cfg.get("min_global_label_frequency_for_eval", 5)
+            ),
         )
 
         dist = class_distribution_report(task_rows, indices, track)
@@ -361,21 +367,3 @@ def load_partition(
     if not part_path.exists():
         raise FileNotFoundError(f"Split artifact missing: {part_path}. Run build_splits.")
     return load_processed_records(part_path)
-
-
-def load_splits_for_probing(
-    cfg: dict[str, Any],
-    *,
-    track: str,
-    task_name: str,
-    paths: ProjectPaths | None = None,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]] | None:
-    """Train + test для probing, если артефакты есть и включено в конфиге."""
-    if not cfg.get("probing", {}).get("use_predefined_splits", True):
-        return None
-    manifest = split_manifest_path(cfg, track=track, task_name=task_name, paths=paths)
-    if not manifest.exists():
-        return None
-    train_rows = load_partition(cfg, track=track, task_name=task_name, partition="train", paths=paths)
-    test_rows = load_partition(cfg, track=track, task_name=task_name, partition="test", paths=paths)
-    return train_rows, test_rows

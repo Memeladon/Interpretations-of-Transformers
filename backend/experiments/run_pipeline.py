@@ -1,4 +1,4 @@
-"""Полный исследовательский pipeline"""
+"""Этап 3: Полный исследовательский pipeline"""
 
 from __future__ import annotations
 

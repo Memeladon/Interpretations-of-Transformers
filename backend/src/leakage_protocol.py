@@ -11,27 +11,6 @@ from src.data_schema import normalize_text_key
 logger = logging.getLogger(__name__)
 
 
-def leakage_group_key(row: dict[str, Any]) -> str:
-    """
-    Ключ группы для split без утечки: одна pair → один pair_id
-    """
-    meta = row.get("metadata") or {}
-    pair_id = meta.get("pair_id")
-    if pair_id:
-        return f"pair_id:{pair_id}"
-
-    parts: list[str] = []
-    text = normalize_text_key(str(row.get("text", "")))
-    if text:
-        parts.append(text)
-    text_pair = row.get("text_pair")
-    if text_pair:
-        parts.append(normalize_text_key(str(text_pair)))
-    if parts:
-        return "text:" + "||".join(sorted(parts))
-    return f"row:{row.get('id', meta.get('record_id', 'unknown'))}"
-
-
 def _row_text_keys(row: dict[str, Any]) -> set[str]:
     keys: set[str] = set()
     text = normalize_text_key(str(row.get("text", "")))

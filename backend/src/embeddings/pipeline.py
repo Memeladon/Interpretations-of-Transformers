@@ -12,7 +12,6 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from src.embeddings.aggregation import aggregate_layer
 from src.embeddings.extractor import EmbeddingExtractor
 from src.experiment_logging import log_layer_scores, log_ruler
 from src.probing.layer_probe import classification_y_array, train_probes_by_layer
@@ -25,29 +24,6 @@ from src.concept_directions.stats import direction_statistics
 from src.embeddings.normalization import NormalizationProtocol
 
 logger = logging.getLogger(__name__)
-
-
-def extract_all_layers(
-    embedding_output: dict[str, Any],
-    level: str = "text",
-    strategy: str = "mean",
-    tokenizer=None,
-    texts: list[str] | None = None,
-) -> list[Any]:
-    hidden_states = embedding_output["hidden_states"]
-    mask = embedding_output["attention_mask"]
-    layer_outputs: list[Any] = []
-    for layer_tensor in hidden_states:
-        aggregated = aggregate_layer(
-            hidden=layer_tensor,
-            mask=mask,
-            level=level,
-            tokenizer=tokenizer,
-            texts=texts,
-            strategy=strategy,
-        )
-        layer_outputs.append(aggregated)
-    return layer_outputs
 
 
 def save_layer_embeddings(layer_outputs: list[Any], output_dir: str | Path, prefix: str) -> list[str]:
@@ -380,20 +356,6 @@ def intervention_with_decomposition(
     return out
 
 
-def load_saved_layer_embeddings(output_dir: Path, prefix: str) -> list[Any]:
-    paths = sorted(
-        Path(output_dir).glob(f"{prefix}_layer_*.npy"),
-        key=lambda p: int(p.stem.rsplit("_", 1)[-1]),
-    )
-    if not paths:
-        raise FileNotFoundError(f"No embeddings matching {prefix}_layer_*.npy in {output_dir}")
-    loaded: list[Any] = []
-    for path in paths:
-        arr = np.load(path, allow_pickle=True)
-        loaded.append(arr)
-    return loaded
-
-
 def save_concept_directions(decomposition: dict[str, Any], output_dir: Path) -> Path | None:
     """Сохранение concept directions (PCA + probe) для повторного использования."""
     out_dir = Path(output_dir)
@@ -414,27 +376,6 @@ def save_concept_directions(decomposition: dict[str, Any], output_dir: Path) -> 
     dest = out_dir / "concept_directions.json"
     dest.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return dest
-
-
-def run_encode_stage(
-    model,
-    tokenizer,
-    texts: list[str],
-    *,
-    output_dir: str | Path,
-    level: str = "text",
-    strategy: str = "mean",
-    batch_size: int = 8,
-    max_length: int = 256,
-) -> dict[str, Any]:
-    """Извлечение hidden states и сохранение sequence embeddings (без probing)."""
-    out_dir = Path(output_dir)
-    extractor = EmbeddingExtractor(model=model, tokenizer=tokenizer, max_length=max_length)
-    enc = extractor.encode(texts=texts, batch_size=batch_size, level=level, strategy=strategy)
-    layer_outputs = enc["layer_outputs"]
-    prefix = f"{level}_{strategy}"
-    embedding_paths = save_layer_embeddings(layer_outputs, output_dir=out_dir, prefix=prefix)
-    return {"layer_outputs": layer_outputs, "embedding_paths": embedding_paths, "prefix": prefix}
 
 
 def run_probing_stage(

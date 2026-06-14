@@ -1,3 +1,3 @@
-from src.features.surface import SurfaceFeatureExtractor, extract_surface_matrix
+from src.features.surface import SurfaceFeatureExtractor
 
-__all__ = ["SurfaceFeatureExtractor", "extract_surface_matrix"]
+__all__ = ["SurfaceFeatureExtractor"]

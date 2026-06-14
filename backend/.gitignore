@@ -13,6 +13,7 @@ data/raw/*
 !data/**/.gitkeep
 logs/*
 !logs/.gitkeep
+_tmp_attn/
 runs/*
 !runs/.gitkeep
 reports/*
