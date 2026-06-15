@@ -1,0 +1,661 @@
+2026-03-30 22:42:54 | INFO     | run_exp                            | 
+2026-03-30 22:42:54 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:42:54 | INFO     | run_exp                            |   ▶ Transformer interpretation experiment
+2026-03-30 22:42:54 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:42:54 | INFO     | run_exp                            | Config: C:\Dev Projects\Python\Interpretations-of-Transformers\backend\experiments\experiment_config.json
+2026-03-30 22:42:54 | INFO     | run_exp                            | Log file: C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\logs\run_20260330_224254.log
+2026-03-30 22:42:54 | INFO     | run_exp                            | faulthandler enabled on log file (no periodic dumps: long CPU encode would look like false timeouts).
+2026-03-30 22:42:54 | WARNING  | run_exp                            | Windows CPU: runtime.cpu_threads auto → 1 (PyTorch+OpenMP на всех ядрах даёт access violation); для скорости используйте CUDA или явно задайте cpu_threads.
+2026-03-30 22:42:54 | INFO     | run_exp                            | Runtime: torch num_threads=1 interop_threads=1 TOKENIZERS_PARALLELISM=false probing_n_jobs=-1
+2026-03-30 22:42:54 | INFO     | run_exp                            | Enabled models: ['bert']
+2026-03-30 22:42:54 | INFO     | run_exp                            | 
+2026-03-30 22:42:54 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:42:54 | INFO     | run_exp                            |   ▶ Stage: load datasets by track (semantic / tone / style)
+2026-03-30 22:42:54 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:42:54 | INFO     | src.datasets_load                  | [semantic] dataset 1/2: loading ai-forever/ru-stsbenchmark-sts split=train …
+2026-03-30 22:42:54 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:55 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-30 22:42:55 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/ai-forever/ru-stsbenchmark-sts/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/README.md HTTP/1.1" 200 0
+2026-03-30 22:42:55 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/ru-stsbenchmark-sts.py HTTP/1.1" 404 0
+2026-03-30 22:42:55 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): s3.amazonaws.com:443
+2026-03-30 22:42:56 | DEBUG    | urllib3.connectionpool             | https://s3.amazonaws.com:443 "HEAD /datasets.huggingface.co/datasets/datasets/ai-forever/ru-stsbenchmark-sts/ai-forever/ru-stsbenchmark-sts.py HTTP/1.1" 404 0
+2026-03-30 22:42:56 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:56 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-30 22:42:56 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): datasets-server.huggingface.co:443
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=ai-forever/ru-stsbenchmark-sts HTTP/1.1" 200 None
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/tree/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/data?recursive=False&expand=False HTTP/1.1" 200 344
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:57 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_infos.json HTTP/1.1" 404 0
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:58 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:59 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:42:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Attempting to acquire lock 1798981593808 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Lock 1798981593808 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-30 22:42:59 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/ai-forever___ru-stsbenchmark-sts/sts/0.0.0/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_info.json
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Attempting to release lock 1798981593808 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Lock 1798981593808 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Attempting to acquire lock 1798981591360 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Lock 1798981591360 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-30 22:42:59 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/ai-forever___ru-stsbenchmark-sts/sts/0.0.0/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_info.json
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Attempting to release lock 1798981591360 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-30 22:42:59 | DEBUG    | filelock                           | Lock 1798981591360 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-30 22:42:59 | INFO     | src.datasets_load                  | [semantic] dataset 1/2: done rows=1000 (total=1000)
+2026-03-30 22:42:59 | INFO     | src.datasets_load                  | [semantic] dataset 2/2: loading MilyaShams/qqp-ru_10k split=train …
+2026-03-30 22:43:09 | WARNING  | huggingface_hub.utils._http        | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 7db56750-0dfb-4bc9-a23f-dc67ae500dcc)')' thrown while requesting HEAD https://huggingface.co/datasets/MilyaShams/qqp-ru_10k/resolve/main/README.md
+2026-03-30 22:43:09 | WARNING  | huggingface_hub.utils._http        | Retrying in 1s [Retry 1/5].
+2026-03-30 22:43:10 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (2): huggingface.co:443
+2026-03-30 22:43:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-30 22:43:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/MilyaShams/qqp-ru_10k/4401c47255c7bdfe87f20ef677c1239b37c93a7a/README.md HTTP/1.1" 200 0
+2026-03-30 22:43:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/qqp-ru_10k.py HTTP/1.1" 404 0
+2026-03-30 22:43:11 | DEBUG    | urllib3.connectionpool             | Resetting dropped connection: s3.amazonaws.com
+2026-03-30 22:43:11 | DEBUG    | urllib3.connectionpool             | https://s3.amazonaws.com:443 "HEAD /datasets.huggingface.co/datasets/datasets/MilyaShams/qqp-ru_10k/MilyaShams/qqp-ru_10k.py HTTP/1.1" 404 0
+2026-03-30 22:43:12 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:12 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-30 22:43:12 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=MilyaShams/qqp-ru_10k HTTP/1.1" 200 None
+2026-03-30 22:43:12 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:12 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/tree/4401c47255c7bdfe87f20ef677c1239b37c93a7a/data?recursive=True&expand=False HTTP/1.1" 200 943
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/tree/4401c47255c7bdfe87f20ef677c1239b37c93a7a?recursive=False&expand=False HTTP/1.1" 200 290
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:13 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_infos.json HTTP/1.1" 404 0
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:14 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:15 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Attempting to acquire lock 1798983359440 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Lock 1798983359440 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-30 22:43:15 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MilyaShams___qqp-ru_10k/default/0.0.0/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_info.json
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Attempting to release lock 1798983359440 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Lock 1798983359440 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Attempting to acquire lock 1798983359584 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Lock 1798983359584 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-30 22:43:15 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MilyaShams___qqp-ru_10k/default/0.0.0/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_info.json
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Attempting to release lock 1798983359584 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-30 22:43:15 | DEBUG    | filelock                           | Lock 1798983359584 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-30 22:43:15 | INFO     | src.datasets_load                  | [semantic] dataset 2/2: done rows=1000 (total=2000)
+2026-03-30 22:43:15 | INFO     | run_exp                            | Semantic records: 2000
+2026-03-30 22:43:15 | INFO     | src.datasets_load                  | [tone] dataset 1/1: loading MonoHime/ru_sentiment_dataset split=train …
+2026-03-30 22:43:15 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-30 22:43:15 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/MonoHime/ru_sentiment_dataset/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/README.md HTTP/1.1" 200 0
+2026-03-30 22:43:15 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/ru_sentiment_dataset.py HTTP/1.1" 404 0
+2026-03-30 22:43:15 | DEBUG    | urllib3.connectionpool             | https://s3.amazonaws.com:443 "HEAD /datasets.huggingface.co/datasets/datasets/MonoHime/ru_sentiment_dataset/MonoHime/ru_sentiment_dataset.py HTTP/1.1" 404 0
+2026-03-30 22:43:16 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-30 22:43:16 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-30 22:43:16 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=MonoHime/ru_sentiment_dataset HTTP/1.1" 200 None
+2026-03-30 22:43:16 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-30 22:43:16 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/tree/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/data?recursive=True&expand=False HTTP/1.1" 404 79
+2026-03-30 22:43:17 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/tree/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425?recursive=False&expand=False HTTP/1.1" 200 None
+2026-03-30 22:43:17 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:17 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-30 22:43:17 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-30 22:43:17 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-30 22:43:18 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_infos.json HTTP/1.1" 404 0
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Attempting to acquire lock 1798981594912 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Lock 1798981594912 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-30 22:43:18 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MonoHime___ru_sentiment_dataset/default/0.0.0/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_info.json
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Attempting to release lock 1798981594912 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Lock 1798981594912 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Attempting to acquire lock 1798937630976 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Lock 1798937630976 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-30 22:43:18 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MonoHime___ru_sentiment_dataset/default/0.0.0/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_info.json
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Attempting to release lock 1798937630976 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-30 22:43:18 | DEBUG    | filelock                           | Lock 1798937630976 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-30 22:43:23 | INFO     | src.datasets_load                  | [tone] dataset 1/1: done rows=1000 (total=1000)
+2026-03-30 22:43:23 | INFO     | run_exp                            | Tone records: 1000
+2026-03-30 22:43:23 | INFO     | src.datasets_load                  | [style] dataset 1/1: loading seara/ru_go_emotions (raw) split=train …
+2026-03-30 22:43:23 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-30 22:43:23 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/seara/ru_go_emotions/0323e396b62e5e34812e70e1a82604d25b43f9a0/README.md HTTP/1.1" 200 0
+2026-03-30 22:43:23 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/0323e396b62e5e34812e70e1a82604d25b43f9a0/ru_go_emotions.py HTTP/1.1" 404 0
+2026-03-30 22:43:23 | DEBUG    | urllib3.connectionpool             | Resetting dropped connection: s3.amazonaws.com
+2026-03-30 22:43:27 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-30 22:43:27 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/0323e396b62e5e34812e70e1a82604d25b43f9a0/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-30 22:43:27 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=seara/ru_go_emotions HTTP/1.1" 200 None
+2026-03-30 22:43:27 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-30 22:43:27 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/tree/0323e396b62e5e34812e70e1a82604d25b43f9a0/raw?recursive=True&expand=False HTTP/1.1" 200 333
+2026-03-30 22:45:28 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/tree/0323e396b62e5e34812e70e1a82604d25b43f9a0?recursive=False&expand=False HTTP/1.1" 504 132
+2026-03-30 22:45:28 | WARNING  | datasets.load                      | Using the latest cached version of the dataset since seara/ru_go_emotions couldn't be found on the Hugging Face Hub
+2026-03-30 22:45:28 | WARNING  | datasets.packaged_modules.cache.cache | Found the latest cached dataset configuration 'raw' at .cache\hf_datasets\seara___ru_go_emotions\raw\0.0.0\0323e396b62e5e34812e70e1a82604d25b43f9a0 (last modified on Wed Mar 25 23:09:47 2026).
+2026-03-30 22:45:28 | DEBUG    | filelock                           | Attempting to acquire lock 1798942356960 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-30 22:45:28 | DEBUG    | filelock                           | Lock 1798942356960 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-30 22:45:28 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/seara___ru_go_emotions/raw/0.0.0/0323e396b62e5e34812e70e1a82604d25b43f9a0/dataset_info.json
+2026-03-30 22:45:28 | DEBUG    | filelock                           | Attempting to release lock 1798942356960 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-30 22:45:28 | DEBUG    | filelock                           | Lock 1798942356960 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-30 22:45:58 | INFO     | src.datasets_load                  | [style] dataset 1/1: done rows=1000 (total=1000)
+2026-03-30 22:45:58 | INFO     | run_exp                            | Style records: 1000
+2026-03-30 22:45:58 | INFO     | run_exp                            | Fine-tuning disabled in config.
+2026-03-30 22:45:58 | INFO     | run_exp                            | Analysis levels: ['text', 'sentence', 'token']
+2026-03-30 22:45:58 | INFO     | run_exp                            | 
+2026-03-30 22:45:58 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:45:58 | INFO     | run_exp                            |   ▶ Track: semantic
+2026-03-30 22:45:58 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:45:58 | INFO     | run_exp                            | Task semantic_similarity: n=1000, task_type=regression
+2026-03-30 22:45:58 | INFO     | run_exp                            | ········································································
+2026-03-30 22:45:58 | INFO     | run_exp                            | 
+2026-03-30 22:45:58 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:45:58 | INFO     | run_exp                            |   ▶ Model: BERT | track: semantic | task: semantic_similarity
+2026-03-30 22:45:58 | INFO     | run_exp                            | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-30 22:45:58 | INFO     | src.language_models.loader         | loading tokenizer: bert-base-multilingual-cased
+2026-03-30 22:45:58 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /bert-base-multilingual-cased/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2026-03-30 22:45:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/bert-base-multilingual-cased/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 307 152
+2026-03-30 22:45:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/google-bert/bert-base-multilingual-cased/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-03-30 22:45:59 | INFO     | src.language_models.loader         | loading weights: bert-base-multilingual-cased -> cpu
+2026-03-30 22:45:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /bert-base-multilingual-cased/resolve/main/config.json HTTP/1.1" 200 0
+2026-03-30 22:45:59 | INFO     | src.language_models.loader         | model ready: family=bert name=bert-base-multilingual-cased
+2026-03-30 22:45:59 | INFO     | run_exp                            | Analysis level: text (batch_size=8, max_length=256)
+2026-03-30 22:45:59 | INFO     | src.embeddings.pipeline            | pipeline: level=text strategy=mean probing=regression batch_size=8 max_length=256 -> C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\analysis\semantic\semantic_similarity\bert\text
+2026-03-30 22:45:59 | INFO     | src.embeddings.extractor           | encode start: 1000 texts, batch_size=8, max_length=256, ~125 batches
+2026-03-30 22:45:59 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 start: idx=[0:8], samples=8, total_chars=483
+2026-03-30 22:45:59 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:02 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:02 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 start: idx=[8:16], samples=8, total_chars=411
+2026-03-30 22:46:02 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:06 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:06 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 start: idx=[16:24], samples=8, total_chars=490
+2026-03-30 22:46:06 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:09 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:09 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 start: idx=[24:32], samples=8, total_chars=351
+2026-03-30 22:46:09 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:12 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:12 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 start: idx=[32:40], samples=8, total_chars=364
+2026-03-30 22:46:12 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:15 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:15 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 start: idx=[40:48], samples=8, total_chars=553
+2026-03-30 22:46:15 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:18 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:18 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 start: idx=[48:56], samples=8, total_chars=453
+2026-03-30 22:46:18 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:22 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:22 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 start: idx=[56:64], samples=8, total_chars=384
+2026-03-30 22:46:22 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:25 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:25 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 start: idx=[64:72], samples=8, total_chars=364
+2026-03-30 22:46:25 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:28 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:28 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 start: idx=[72:80], samples=8, total_chars=658
+2026-03-30 22:46:28 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:31 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:31 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 start: idx=[80:88], samples=8, total_chars=736
+2026-03-30 22:46:31 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:34 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:34 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 start: idx=[88:96], samples=8, total_chars=570
+2026-03-30 22:46:34 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:38 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:38 | INFO     | src.embeddings.extractor           | encode batch 12/125
+2026-03-30 22:46:38 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 start: idx=[96:104], samples=8, total_chars=451
+2026-03-30 22:46:38 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:41 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:41 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 start: idx=[104:112], samples=8, total_chars=481
+2026-03-30 22:46:41 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:44 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:44 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 start: idx=[112:120], samples=8, total_chars=393
+2026-03-30 22:46:44 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:47 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:47 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 start: idx=[120:128], samples=8, total_chars=578
+2026-03-30 22:46:47 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:50 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:50 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 start: idx=[128:136], samples=8, total_chars=558
+2026-03-30 22:46:50 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:54 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:54 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 start: idx=[136:144], samples=8, total_chars=453
+2026-03-30 22:46:54 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:46:57 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:46:57 | DEBUG    | src.embeddings.extractor           | encode batch 19/125 start: idx=[144:152], samples=8, total_chars=532
+2026-03-30 22:46:57 | DEBUG    | src.embeddings.extractor           | encode batch 19/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:00 | DEBUG    | src.embeddings.extractor           | encode batch 19/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:00 | DEBUG    | src.embeddings.extractor           | encode batch 20/125 start: idx=[152:160], samples=8, total_chars=593
+2026-03-30 22:47:00 | DEBUG    | src.embeddings.extractor           | encode batch 20/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:03 | DEBUG    | src.embeddings.extractor           | encode batch 20/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:03 | DEBUG    | src.embeddings.extractor           | encode batch 21/125 start: idx=[160:168], samples=8, total_chars=408
+2026-03-30 22:47:03 | DEBUG    | src.embeddings.extractor           | encode batch 21/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:06 | DEBUG    | src.embeddings.extractor           | encode batch 21/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:06 | DEBUG    | src.embeddings.extractor           | encode batch 22/125 start: idx=[168:176], samples=8, total_chars=379
+2026-03-30 22:47:06 | DEBUG    | src.embeddings.extractor           | encode batch 22/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:09 | DEBUG    | src.embeddings.extractor           | encode batch 22/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:09 | DEBUG    | src.embeddings.extractor           | encode batch 23/125 start: idx=[176:184], samples=8, total_chars=416
+2026-03-30 22:47:09 | DEBUG    | src.embeddings.extractor           | encode batch 23/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:12 | DEBUG    | src.embeddings.extractor           | encode batch 23/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:12 | DEBUG    | src.embeddings.extractor           | encode batch 24/125 start: idx=[184:192], samples=8, total_chars=458
+2026-03-30 22:47:12 | DEBUG    | src.embeddings.extractor           | encode batch 24/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:16 | DEBUG    | src.embeddings.extractor           | encode batch 24/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:16 | INFO     | src.embeddings.extractor           | encode batch 24/125
+2026-03-30 22:47:16 | DEBUG    | src.embeddings.extractor           | encode batch 25/125 start: idx=[192:200], samples=8, total_chars=617
+2026-03-30 22:47:16 | DEBUG    | src.embeddings.extractor           | encode batch 25/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:19 | DEBUG    | src.embeddings.extractor           | encode batch 25/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:19 | DEBUG    | src.embeddings.extractor           | encode batch 26/125 start: idx=[200:208], samples=8, total_chars=585
+2026-03-30 22:47:19 | DEBUG    | src.embeddings.extractor           | encode batch 26/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:22 | DEBUG    | src.embeddings.extractor           | encode batch 26/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:22 | DEBUG    | src.embeddings.extractor           | encode batch 27/125 start: idx=[208:216], samples=8, total_chars=723
+2026-03-30 22:47:22 | DEBUG    | src.embeddings.extractor           | encode batch 27/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:25 | DEBUG    | src.embeddings.extractor           | encode batch 27/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:25 | DEBUG    | src.embeddings.extractor           | encode batch 28/125 start: idx=[216:224], samples=8, total_chars=628
+2026-03-30 22:47:25 | DEBUG    | src.embeddings.extractor           | encode batch 28/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:28 | DEBUG    | src.embeddings.extractor           | encode batch 28/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:28 | DEBUG    | src.embeddings.extractor           | encode batch 29/125 start: idx=[224:232], samples=8, total_chars=586
+2026-03-30 22:47:28 | DEBUG    | src.embeddings.extractor           | encode batch 29/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:31 | DEBUG    | src.embeddings.extractor           | encode batch 29/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:31 | DEBUG    | src.embeddings.extractor           | encode batch 30/125 start: idx=[232:240], samples=8, total_chars=476
+2026-03-30 22:47:31 | DEBUG    | src.embeddings.extractor           | encode batch 30/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:34 | DEBUG    | src.embeddings.extractor           | encode batch 30/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:34 | DEBUG    | src.embeddings.extractor           | encode batch 31/125 start: idx=[240:248], samples=8, total_chars=292
+2026-03-30 22:47:34 | DEBUG    | src.embeddings.extractor           | encode batch 31/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:37 | DEBUG    | src.embeddings.extractor           | encode batch 31/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:37 | DEBUG    | src.embeddings.extractor           | encode batch 32/125 start: idx=[248:256], samples=8, total_chars=680
+2026-03-30 22:47:37 | DEBUG    | src.embeddings.extractor           | encode batch 32/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:41 | DEBUG    | src.embeddings.extractor           | encode batch 32/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:41 | DEBUG    | src.embeddings.extractor           | encode batch 33/125 start: idx=[256:264], samples=8, total_chars=415
+2026-03-30 22:47:41 | DEBUG    | src.embeddings.extractor           | encode batch 33/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:44 | DEBUG    | src.embeddings.extractor           | encode batch 33/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:44 | DEBUG    | src.embeddings.extractor           | encode batch 34/125 start: idx=[264:272], samples=8, total_chars=551
+2026-03-30 22:47:44 | DEBUG    | src.embeddings.extractor           | encode batch 34/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:47 | DEBUG    | src.embeddings.extractor           | encode batch 34/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:47 | DEBUG    | src.embeddings.extractor           | encode batch 35/125 start: idx=[272:280], samples=8, total_chars=405
+2026-03-30 22:47:47 | DEBUG    | src.embeddings.extractor           | encode batch 35/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:50 | DEBUG    | src.embeddings.extractor           | encode batch 35/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:50 | DEBUG    | src.embeddings.extractor           | encode batch 36/125 start: idx=[280:288], samples=8, total_chars=522
+2026-03-30 22:47:50 | DEBUG    | src.embeddings.extractor           | encode batch 36/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:53 | DEBUG    | src.embeddings.extractor           | encode batch 36/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:53 | INFO     | src.embeddings.extractor           | encode batch 36/125
+2026-03-30 22:47:53 | DEBUG    | src.embeddings.extractor           | encode batch 37/125 start: idx=[288:296], samples=8, total_chars=555
+2026-03-30 22:47:53 | DEBUG    | src.embeddings.extractor           | encode batch 37/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:56 | DEBUG    | src.embeddings.extractor           | encode batch 37/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:56 | DEBUG    | src.embeddings.extractor           | encode batch 38/125 start: idx=[296:304], samples=8, total_chars=340
+2026-03-30 22:47:56 | DEBUG    | src.embeddings.extractor           | encode batch 38/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:47:59 | DEBUG    | src.embeddings.extractor           | encode batch 38/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:47:59 | DEBUG    | src.embeddings.extractor           | encode batch 39/125 start: idx=[304:312], samples=8, total_chars=407
+2026-03-30 22:47:59 | DEBUG    | src.embeddings.extractor           | encode batch 39/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:02 | DEBUG    | src.embeddings.extractor           | encode batch 39/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:02 | DEBUG    | src.embeddings.extractor           | encode batch 40/125 start: idx=[312:320], samples=8, total_chars=389
+2026-03-30 22:48:02 | DEBUG    | src.embeddings.extractor           | encode batch 40/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:05 | DEBUG    | src.embeddings.extractor           | encode batch 40/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:05 | DEBUG    | src.embeddings.extractor           | encode batch 41/125 start: idx=[320:328], samples=8, total_chars=704
+2026-03-30 22:48:05 | DEBUG    | src.embeddings.extractor           | encode batch 41/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:08 | DEBUG    | src.embeddings.extractor           | encode batch 41/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:08 | DEBUG    | src.embeddings.extractor           | encode batch 42/125 start: idx=[328:336], samples=8, total_chars=644
+2026-03-30 22:48:08 | DEBUG    | src.embeddings.extractor           | encode batch 42/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:12 | DEBUG    | src.embeddings.extractor           | encode batch 42/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:12 | DEBUG    | src.embeddings.extractor           | encode batch 43/125 start: idx=[336:344], samples=8, total_chars=645
+2026-03-30 22:48:12 | DEBUG    | src.embeddings.extractor           | encode batch 43/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:15 | DEBUG    | src.embeddings.extractor           | encode batch 43/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:15 | DEBUG    | src.embeddings.extractor           | encode batch 44/125 start: idx=[344:352], samples=8, total_chars=554
+2026-03-30 22:48:15 | DEBUG    | src.embeddings.extractor           | encode batch 44/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:18 | DEBUG    | src.embeddings.extractor           | encode batch 44/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:18 | DEBUG    | src.embeddings.extractor           | encode batch 45/125 start: idx=[352:360], samples=8, total_chars=340
+2026-03-30 22:48:18 | DEBUG    | src.embeddings.extractor           | encode batch 45/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:21 | DEBUG    | src.embeddings.extractor           | encode batch 45/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:21 | DEBUG    | src.embeddings.extractor           | encode batch 46/125 start: idx=[360:368], samples=8, total_chars=435
+2026-03-30 22:48:21 | DEBUG    | src.embeddings.extractor           | encode batch 46/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:24 | DEBUG    | src.embeddings.extractor           | encode batch 46/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:24 | DEBUG    | src.embeddings.extractor           | encode batch 47/125 start: idx=[368:376], samples=8, total_chars=291
+2026-03-30 22:48:24 | DEBUG    | src.embeddings.extractor           | encode batch 47/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:27 | DEBUG    | src.embeddings.extractor           | encode batch 47/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:27 | DEBUG    | src.embeddings.extractor           | encode batch 48/125 start: idx=[376:384], samples=8, total_chars=558
+2026-03-30 22:48:27 | DEBUG    | src.embeddings.extractor           | encode batch 48/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:30 | DEBUG    | src.embeddings.extractor           | encode batch 48/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:30 | INFO     | src.embeddings.extractor           | encode batch 48/125
+2026-03-30 22:48:30 | DEBUG    | src.embeddings.extractor           | encode batch 49/125 start: idx=[384:392], samples=8, total_chars=572
+2026-03-30 22:48:30 | DEBUG    | src.embeddings.extractor           | encode batch 49/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:33 | DEBUG    | src.embeddings.extractor           | encode batch 49/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:33 | DEBUG    | src.embeddings.extractor           | encode batch 50/125 start: idx=[392:400], samples=8, total_chars=381
+2026-03-30 22:48:33 | DEBUG    | src.embeddings.extractor           | encode batch 50/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:37 | DEBUG    | src.embeddings.extractor           | encode batch 50/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:37 | DEBUG    | src.embeddings.extractor           | encode batch 51/125 start: idx=[400:408], samples=8, total_chars=487
+2026-03-30 22:48:37 | DEBUG    | src.embeddings.extractor           | encode batch 51/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:40 | DEBUG    | src.embeddings.extractor           | encode batch 51/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:40 | DEBUG    | src.embeddings.extractor           | encode batch 52/125 start: idx=[408:416], samples=8, total_chars=519
+2026-03-30 22:48:40 | DEBUG    | src.embeddings.extractor           | encode batch 52/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:43 | DEBUG    | src.embeddings.extractor           | encode batch 52/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:43 | DEBUG    | src.embeddings.extractor           | encode batch 53/125 start: idx=[416:424], samples=8, total_chars=530
+2026-03-30 22:48:43 | DEBUG    | src.embeddings.extractor           | encode batch 53/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:46 | DEBUG    | src.embeddings.extractor           | encode batch 53/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:46 | DEBUG    | src.embeddings.extractor           | encode batch 54/125 start: idx=[424:432], samples=8, total_chars=445
+2026-03-30 22:48:46 | DEBUG    | src.embeddings.extractor           | encode batch 54/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:49 | DEBUG    | src.embeddings.extractor           | encode batch 54/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:49 | DEBUG    | src.embeddings.extractor           | encode batch 55/125 start: idx=[432:440], samples=8, total_chars=340
+2026-03-30 22:48:49 | DEBUG    | src.embeddings.extractor           | encode batch 55/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:52 | DEBUG    | src.embeddings.extractor           | encode batch 55/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:52 | DEBUG    | src.embeddings.extractor           | encode batch 56/125 start: idx=[440:448], samples=8, total_chars=535
+2026-03-30 22:48:52 | DEBUG    | src.embeddings.extractor           | encode batch 56/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:55 | DEBUG    | src.embeddings.extractor           | encode batch 56/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:55 | DEBUG    | src.embeddings.extractor           | encode batch 57/125 start: idx=[448:456], samples=8, total_chars=451
+2026-03-30 22:48:55 | DEBUG    | src.embeddings.extractor           | encode batch 57/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:48:59 | DEBUG    | src.embeddings.extractor           | encode batch 57/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:48:59 | DEBUG    | src.embeddings.extractor           | encode batch 58/125 start: idx=[456:464], samples=8, total_chars=573
+2026-03-30 22:48:59 | DEBUG    | src.embeddings.extractor           | encode batch 58/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:02 | DEBUG    | src.embeddings.extractor           | encode batch 58/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:02 | DEBUG    | src.embeddings.extractor           | encode batch 59/125 start: idx=[464:472], samples=8, total_chars=623
+2026-03-30 22:49:02 | DEBUG    | src.embeddings.extractor           | encode batch 59/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:05 | DEBUG    | src.embeddings.extractor           | encode batch 59/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:05 | DEBUG    | src.embeddings.extractor           | encode batch 60/125 start: idx=[472:480], samples=8, total_chars=497
+2026-03-30 22:49:05 | DEBUG    | src.embeddings.extractor           | encode batch 60/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:08 | DEBUG    | src.embeddings.extractor           | encode batch 60/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:08 | INFO     | src.embeddings.extractor           | encode batch 60/125
+2026-03-30 22:49:08 | DEBUG    | src.embeddings.extractor           | encode batch 61/125 start: idx=[480:488], samples=8, total_chars=333
+2026-03-30 22:49:08 | DEBUG    | src.embeddings.extractor           | encode batch 61/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:11 | DEBUG    | src.embeddings.extractor           | encode batch 61/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:11 | DEBUG    | src.embeddings.extractor           | encode batch 62/125 start: idx=[488:496], samples=8, total_chars=517
+2026-03-30 22:49:11 | DEBUG    | src.embeddings.extractor           | encode batch 62/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:14 | DEBUG    | src.embeddings.extractor           | encode batch 62/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:14 | DEBUG    | src.embeddings.extractor           | encode batch 63/125 start: idx=[496:504], samples=8, total_chars=502
+2026-03-30 22:49:14 | DEBUG    | src.embeddings.extractor           | encode batch 63/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:17 | DEBUG    | src.embeddings.extractor           | encode batch 63/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:17 | DEBUG    | src.embeddings.extractor           | encode batch 64/125 start: idx=[504:512], samples=8, total_chars=311
+2026-03-30 22:49:17 | DEBUG    | src.embeddings.extractor           | encode batch 64/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:21 | DEBUG    | src.embeddings.extractor           | encode batch 64/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:21 | DEBUG    | src.embeddings.extractor           | encode batch 65/125 start: idx=[512:520], samples=8, total_chars=391
+2026-03-30 22:49:21 | DEBUG    | src.embeddings.extractor           | encode batch 65/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:24 | DEBUG    | src.embeddings.extractor           | encode batch 65/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:24 | DEBUG    | src.embeddings.extractor           | encode batch 66/125 start: idx=[520:528], samples=8, total_chars=626
+2026-03-30 22:49:24 | DEBUG    | src.embeddings.extractor           | encode batch 66/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:27 | DEBUG    | src.embeddings.extractor           | encode batch 66/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:27 | DEBUG    | src.embeddings.extractor           | encode batch 67/125 start: idx=[528:536], samples=8, total_chars=475
+2026-03-30 22:49:27 | DEBUG    | src.embeddings.extractor           | encode batch 67/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:30 | DEBUG    | src.embeddings.extractor           | encode batch 67/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:30 | DEBUG    | src.embeddings.extractor           | encode batch 68/125 start: idx=[536:544], samples=8, total_chars=455
+2026-03-30 22:49:30 | DEBUG    | src.embeddings.extractor           | encode batch 68/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:33 | DEBUG    | src.embeddings.extractor           | encode batch 68/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:33 | DEBUG    | src.embeddings.extractor           | encode batch 69/125 start: idx=[544:552], samples=8, total_chars=358
+2026-03-30 22:49:33 | DEBUG    | src.embeddings.extractor           | encode batch 69/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:36 | DEBUG    | src.embeddings.extractor           | encode batch 69/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:36 | DEBUG    | src.embeddings.extractor           | encode batch 70/125 start: idx=[552:560], samples=8, total_chars=596
+2026-03-30 22:49:36 | DEBUG    | src.embeddings.extractor           | encode batch 70/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:39 | DEBUG    | src.embeddings.extractor           | encode batch 70/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:39 | DEBUG    | src.embeddings.extractor           | encode batch 71/125 start: idx=[560:568], samples=8, total_chars=373
+2026-03-30 22:49:39 | DEBUG    | src.embeddings.extractor           | encode batch 71/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:42 | DEBUG    | src.embeddings.extractor           | encode batch 71/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:42 | DEBUG    | src.embeddings.extractor           | encode batch 72/125 start: idx=[568:576], samples=8, total_chars=348
+2026-03-30 22:49:42 | DEBUG    | src.embeddings.extractor           | encode batch 72/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:46 | DEBUG    | src.embeddings.extractor           | encode batch 72/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:46 | INFO     | src.embeddings.extractor           | encode batch 72/125
+2026-03-30 22:49:46 | DEBUG    | src.embeddings.extractor           | encode batch 73/125 start: idx=[576:584], samples=8, total_chars=458
+2026-03-30 22:49:46 | DEBUG    | src.embeddings.extractor           | encode batch 73/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:49 | DEBUG    | src.embeddings.extractor           | encode batch 73/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:49 | DEBUG    | src.embeddings.extractor           | encode batch 74/125 start: idx=[584:592], samples=8, total_chars=445
+2026-03-30 22:49:49 | DEBUG    | src.embeddings.extractor           | encode batch 74/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:52 | DEBUG    | src.embeddings.extractor           | encode batch 74/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:52 | DEBUG    | src.embeddings.extractor           | encode batch 75/125 start: idx=[592:600], samples=8, total_chars=469
+2026-03-30 22:49:52 | DEBUG    | src.embeddings.extractor           | encode batch 75/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:55 | DEBUG    | src.embeddings.extractor           | encode batch 75/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:55 | DEBUG    | src.embeddings.extractor           | encode batch 76/125 start: idx=[600:608], samples=8, total_chars=386
+2026-03-30 22:49:55 | DEBUG    | src.embeddings.extractor           | encode batch 76/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:49:58 | DEBUG    | src.embeddings.extractor           | encode batch 76/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:49:58 | DEBUG    | src.embeddings.extractor           | encode batch 77/125 start: idx=[608:616], samples=8, total_chars=554
+2026-03-30 22:49:58 | DEBUG    | src.embeddings.extractor           | encode batch 77/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:01 | DEBUG    | src.embeddings.extractor           | encode batch 77/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:01 | DEBUG    | src.embeddings.extractor           | encode batch 78/125 start: idx=[616:624], samples=8, total_chars=511
+2026-03-30 22:50:01 | DEBUG    | src.embeddings.extractor           | encode batch 78/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:04 | DEBUG    | src.embeddings.extractor           | encode batch 78/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:04 | DEBUG    | src.embeddings.extractor           | encode batch 79/125 start: idx=[624:632], samples=8, total_chars=413
+2026-03-30 22:50:04 | DEBUG    | src.embeddings.extractor           | encode batch 79/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:08 | DEBUG    | src.embeddings.extractor           | encode batch 79/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:08 | DEBUG    | src.embeddings.extractor           | encode batch 80/125 start: idx=[632:640], samples=8, total_chars=291
+2026-03-30 22:50:08 | DEBUG    | src.embeddings.extractor           | encode batch 80/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:11 | DEBUG    | src.embeddings.extractor           | encode batch 80/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:11 | DEBUG    | src.embeddings.extractor           | encode batch 81/125 start: idx=[640:648], samples=8, total_chars=339
+2026-03-30 22:50:11 | DEBUG    | src.embeddings.extractor           | encode batch 81/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:14 | DEBUG    | src.embeddings.extractor           | encode batch 81/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:14 | DEBUG    | src.embeddings.extractor           | encode batch 82/125 start: idx=[648:656], samples=8, total_chars=387
+2026-03-30 22:50:14 | DEBUG    | src.embeddings.extractor           | encode batch 82/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:17 | DEBUG    | src.embeddings.extractor           | encode batch 82/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:17 | DEBUG    | src.embeddings.extractor           | encode batch 83/125 start: idx=[656:664], samples=8, total_chars=364
+2026-03-30 22:50:17 | DEBUG    | src.embeddings.extractor           | encode batch 83/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:20 | DEBUG    | src.embeddings.extractor           | encode batch 83/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:20 | DEBUG    | src.embeddings.extractor           | encode batch 84/125 start: idx=[664:672], samples=8, total_chars=360
+2026-03-30 22:50:20 | DEBUG    | src.embeddings.extractor           | encode batch 84/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:23 | DEBUG    | src.embeddings.extractor           | encode batch 84/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:23 | INFO     | src.embeddings.extractor           | encode batch 84/125
+2026-03-30 22:50:23 | DEBUG    | src.embeddings.extractor           | encode batch 85/125 start: idx=[672:680], samples=8, total_chars=385
+2026-03-30 22:50:23 | DEBUG    | src.embeddings.extractor           | encode batch 85/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:26 | DEBUG    | src.embeddings.extractor           | encode batch 85/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:26 | DEBUG    | src.embeddings.extractor           | encode batch 86/125 start: idx=[680:688], samples=8, total_chars=430
+2026-03-30 22:50:26 | DEBUG    | src.embeddings.extractor           | encode batch 86/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:30 | DEBUG    | src.embeddings.extractor           | encode batch 86/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:30 | DEBUG    | src.embeddings.extractor           | encode batch 87/125 start: idx=[688:696], samples=8, total_chars=439
+2026-03-30 22:50:30 | DEBUG    | src.embeddings.extractor           | encode batch 87/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:33 | DEBUG    | src.embeddings.extractor           | encode batch 87/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:33 | DEBUG    | src.embeddings.extractor           | encode batch 88/125 start: idx=[696:704], samples=8, total_chars=420
+2026-03-30 22:50:33 | DEBUG    | src.embeddings.extractor           | encode batch 88/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:36 | DEBUG    | src.embeddings.extractor           | encode batch 88/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:36 | DEBUG    | src.embeddings.extractor           | encode batch 89/125 start: idx=[704:712], samples=8, total_chars=527
+2026-03-30 22:50:36 | DEBUG    | src.embeddings.extractor           | encode batch 89/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:39 | DEBUG    | src.embeddings.extractor           | encode batch 89/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:39 | DEBUG    | src.embeddings.extractor           | encode batch 90/125 start: idx=[712:720], samples=8, total_chars=453
+2026-03-30 22:50:39 | DEBUG    | src.embeddings.extractor           | encode batch 90/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:42 | DEBUG    | src.embeddings.extractor           | encode batch 90/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:42 | DEBUG    | src.embeddings.extractor           | encode batch 91/125 start: idx=[720:728], samples=8, total_chars=450
+2026-03-30 22:50:42 | DEBUG    | src.embeddings.extractor           | encode batch 91/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:45 | DEBUG    | src.embeddings.extractor           | encode batch 91/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:45 | DEBUG    | src.embeddings.extractor           | encode batch 92/125 start: idx=[728:736], samples=8, total_chars=352
+2026-03-30 22:50:45 | DEBUG    | src.embeddings.extractor           | encode batch 92/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:48 | DEBUG    | src.embeddings.extractor           | encode batch 92/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:48 | DEBUG    | src.embeddings.extractor           | encode batch 93/125 start: idx=[736:744], samples=8, total_chars=433
+2026-03-30 22:50:48 | DEBUG    | src.embeddings.extractor           | encode batch 93/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:52 | DEBUG    | src.embeddings.extractor           | encode batch 93/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:52 | DEBUG    | src.embeddings.extractor           | encode batch 94/125 start: idx=[744:752], samples=8, total_chars=515
+2026-03-30 22:50:52 | DEBUG    | src.embeddings.extractor           | encode batch 94/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:55 | DEBUG    | src.embeddings.extractor           | encode batch 94/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:55 | DEBUG    | src.embeddings.extractor           | encode batch 95/125 start: idx=[752:760], samples=8, total_chars=636
+2026-03-30 22:50:55 | DEBUG    | src.embeddings.extractor           | encode batch 95/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:50:58 | DEBUG    | src.embeddings.extractor           | encode batch 95/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:50:58 | DEBUG    | src.embeddings.extractor           | encode batch 96/125 start: idx=[760:768], samples=8, total_chars=437
+2026-03-30 22:50:58 | DEBUG    | src.embeddings.extractor           | encode batch 96/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:01 | DEBUG    | src.embeddings.extractor           | encode batch 96/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:01 | INFO     | src.embeddings.extractor           | encode batch 96/125
+2026-03-30 22:51:01 | DEBUG    | src.embeddings.extractor           | encode batch 97/125 start: idx=[768:776], samples=8, total_chars=736
+2026-03-30 22:51:01 | DEBUG    | src.embeddings.extractor           | encode batch 97/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:04 | DEBUG    | src.embeddings.extractor           | encode batch 97/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:04 | DEBUG    | src.embeddings.extractor           | encode batch 98/125 start: idx=[776:784], samples=8, total_chars=429
+2026-03-30 22:51:04 | DEBUG    | src.embeddings.extractor           | encode batch 98/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:07 | DEBUG    | src.embeddings.extractor           | encode batch 98/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:07 | DEBUG    | src.embeddings.extractor           | encode batch 99/125 start: idx=[784:792], samples=8, total_chars=513
+2026-03-30 22:51:07 | DEBUG    | src.embeddings.extractor           | encode batch 99/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:11 | DEBUG    | src.embeddings.extractor           | encode batch 99/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:11 | DEBUG    | src.embeddings.extractor           | encode batch 100/125 start: idx=[792:800], samples=8, total_chars=554
+2026-03-30 22:51:11 | DEBUG    | src.embeddings.extractor           | encode batch 100/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:14 | DEBUG    | src.embeddings.extractor           | encode batch 100/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:14 | DEBUG    | src.embeddings.extractor           | encode batch 101/125 start: idx=[800:808], samples=8, total_chars=393
+2026-03-30 22:51:14 | DEBUG    | src.embeddings.extractor           | encode batch 101/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:17 | DEBUG    | src.embeddings.extractor           | encode batch 101/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:17 | DEBUG    | src.embeddings.extractor           | encode batch 102/125 start: idx=[808:816], samples=8, total_chars=430
+2026-03-30 22:51:17 | DEBUG    | src.embeddings.extractor           | encode batch 102/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:20 | DEBUG    | src.embeddings.extractor           | encode batch 102/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:20 | DEBUG    | src.embeddings.extractor           | encode batch 103/125 start: idx=[816:824], samples=8, total_chars=427
+2026-03-30 22:51:20 | DEBUG    | src.embeddings.extractor           | encode batch 103/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:24 | DEBUG    | src.embeddings.extractor           | encode batch 103/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:24 | DEBUG    | src.embeddings.extractor           | encode batch 104/125 start: idx=[824:832], samples=8, total_chars=446
+2026-03-30 22:51:24 | DEBUG    | src.embeddings.extractor           | encode batch 104/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:27 | DEBUG    | src.embeddings.extractor           | encode batch 104/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:27 | DEBUG    | src.embeddings.extractor           | encode batch 105/125 start: idx=[832:840], samples=8, total_chars=427
+2026-03-30 22:51:27 | DEBUG    | src.embeddings.extractor           | encode batch 105/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:30 | DEBUG    | src.embeddings.extractor           | encode batch 105/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:30 | DEBUG    | src.embeddings.extractor           | encode batch 106/125 start: idx=[840:848], samples=8, total_chars=389
+2026-03-30 22:51:30 | DEBUG    | src.embeddings.extractor           | encode batch 106/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:33 | DEBUG    | src.embeddings.extractor           | encode batch 106/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:33 | DEBUG    | src.embeddings.extractor           | encode batch 107/125 start: idx=[848:856], samples=8, total_chars=391
+2026-03-30 22:51:33 | DEBUG    | src.embeddings.extractor           | encode batch 107/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:36 | DEBUG    | src.embeddings.extractor           | encode batch 107/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:36 | DEBUG    | src.embeddings.extractor           | encode batch 108/125 start: idx=[856:864], samples=8, total_chars=425
+2026-03-30 22:51:36 | DEBUG    | src.embeddings.extractor           | encode batch 108/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:39 | DEBUG    | src.embeddings.extractor           | encode batch 108/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:39 | INFO     | src.embeddings.extractor           | encode batch 108/125
+2026-03-30 22:51:39 | DEBUG    | src.embeddings.extractor           | encode batch 109/125 start: idx=[864:872], samples=8, total_chars=581
+2026-03-30 22:51:39 | DEBUG    | src.embeddings.extractor           | encode batch 109/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:51:43 | DEBUG    | src.embeddings.extractor           | encode batch 109/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:51:43 | DEBUG    | src.embeddings.extractor           | encode batch 110/125 start: idx=[872:880], samples=8, total_chars=678
+2026-03-30 22:51:43 | DEBUG    | src.embeddings.extractor           | encode batch 110/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:00 | DEBUG    | src.embeddings.extractor           | encode batch 110/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:00 | DEBUG    | src.embeddings.extractor           | encode batch 111/125 start: idx=[880:888], samples=8, total_chars=315
+2026-03-30 22:52:00 | DEBUG    | src.embeddings.extractor           | encode batch 111/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:03 | DEBUG    | src.embeddings.extractor           | encode batch 111/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:03 | DEBUG    | src.embeddings.extractor           | encode batch 112/125 start: idx=[888:896], samples=8, total_chars=354
+2026-03-30 22:52:03 | DEBUG    | src.embeddings.extractor           | encode batch 112/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:06 | DEBUG    | src.embeddings.extractor           | encode batch 112/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:06 | DEBUG    | src.embeddings.extractor           | encode batch 113/125 start: idx=[896:904], samples=8, total_chars=458
+2026-03-30 22:52:06 | DEBUG    | src.embeddings.extractor           | encode batch 113/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:10 | DEBUG    | src.embeddings.extractor           | encode batch 113/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:10 | DEBUG    | src.embeddings.extractor           | encode batch 114/125 start: idx=[904:912], samples=8, total_chars=509
+2026-03-30 22:52:10 | DEBUG    | src.embeddings.extractor           | encode batch 114/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:13 | DEBUG    | src.embeddings.extractor           | encode batch 114/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:13 | DEBUG    | src.embeddings.extractor           | encode batch 115/125 start: idx=[912:920], samples=8, total_chars=453
+2026-03-30 22:52:13 | DEBUG    | src.embeddings.extractor           | encode batch 115/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:16 | DEBUG    | src.embeddings.extractor           | encode batch 115/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:16 | DEBUG    | src.embeddings.extractor           | encode batch 116/125 start: idx=[920:928], samples=8, total_chars=547
+2026-03-30 22:52:16 | DEBUG    | src.embeddings.extractor           | encode batch 116/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:20 | DEBUG    | src.embeddings.extractor           | encode batch 116/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:20 | DEBUG    | src.embeddings.extractor           | encode batch 117/125 start: idx=[928:936], samples=8, total_chars=292
+2026-03-30 22:52:20 | DEBUG    | src.embeddings.extractor           | encode batch 117/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:23 | DEBUG    | src.embeddings.extractor           | encode batch 117/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:23 | DEBUG    | src.embeddings.extractor           | encode batch 118/125 start: idx=[936:944], samples=8, total_chars=631
+2026-03-30 22:52:23 | DEBUG    | src.embeddings.extractor           | encode batch 118/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:27 | DEBUG    | src.embeddings.extractor           | encode batch 118/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:27 | DEBUG    | src.embeddings.extractor           | encode batch 119/125 start: idx=[944:952], samples=8, total_chars=563
+2026-03-30 22:52:27 | DEBUG    | src.embeddings.extractor           | encode batch 119/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:30 | DEBUG    | src.embeddings.extractor           | encode batch 119/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:30 | DEBUG    | src.embeddings.extractor           | encode batch 120/125 start: idx=[952:960], samples=8, total_chars=460
+2026-03-30 22:52:30 | DEBUG    | src.embeddings.extractor           | encode batch 120/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:34 | DEBUG    | src.embeddings.extractor           | encode batch 120/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:34 | INFO     | src.embeddings.extractor           | encode batch 120/125
+2026-03-30 22:52:34 | DEBUG    | src.embeddings.extractor           | encode batch 121/125 start: idx=[960:968], samples=8, total_chars=413
+2026-03-30 22:52:34 | DEBUG    | src.embeddings.extractor           | encode batch 121/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:37 | DEBUG    | src.embeddings.extractor           | encode batch 121/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:37 | DEBUG    | src.embeddings.extractor           | encode batch 122/125 start: idx=[968:976], samples=8, total_chars=525
+2026-03-30 22:52:37 | DEBUG    | src.embeddings.extractor           | encode batch 122/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:41 | DEBUG    | src.embeddings.extractor           | encode batch 122/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:41 | DEBUG    | src.embeddings.extractor           | encode batch 123/125 start: idx=[976:984], samples=8, total_chars=406
+2026-03-30 22:52:41 | DEBUG    | src.embeddings.extractor           | encode batch 123/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:45 | DEBUG    | src.embeddings.extractor           | encode batch 123/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:45 | DEBUG    | src.embeddings.extractor           | encode batch 124/125 start: idx=[984:992], samples=8, total_chars=462
+2026-03-30 22:52:45 | DEBUG    | src.embeddings.extractor           | encode batch 124/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:48 | DEBUG    | src.embeddings.extractor           | encode batch 124/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:48 | DEBUG    | src.embeddings.extractor           | encode batch 125/125 start: idx=[992:1000], samples=8, total_chars=503
+2026-03-30 22:52:48 | DEBUG    | src.embeddings.extractor           | encode batch 125/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:52:51 | DEBUG    | src.embeddings.extractor           | encode batch 125/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:52:51 | INFO     | src.embeddings.extractor           | encode batch 125/125
+2026-03-30 22:53:44 | INFO     | src.embeddings.extractor           | encode done: layers=13, first_layer_shape=(1000, 256, 768), mask_shape=(1000, 256)
+2026-03-30 22:54:07 | INFO     | src.embeddings.pipeline            | aggregated 13 layer tensors (level=text)
+2026-03-30 22:54:07 | INFO     | src.embeddings.pipeline            | saved 13 embedding files under C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\analysis\semantic\semantic_similarity\bert\text
+2026-03-30 22:54:07 | INFO     | src.embeddings.pipeline            | Probing: linear probes by layer (regression)
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 0: score=-15.0757
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 1: score=-15.3509
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 2: score=-17.2130
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 3: score=-14.0483
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 4: score=-13.4247
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 5: score=-11.9455
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 6: score=-12.5995
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 7: score=-9.7215
+2026-03-30 22:54:07 | DEBUG    | src.probing                        | probe layer 8: score=-12.0194
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 9: score=-13.2276
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 10: score=-12.1438
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 11: score=-11.2938
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 12: score=-10.6329
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   Probing results (neg_mse):
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   0  neg_mse    -15.0757
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   1  neg_mse    -15.3509
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   2  neg_mse    -17.2130
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   3  neg_mse    -14.0483
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   4  neg_mse    -13.4247
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   5  neg_mse    -11.9455
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   6  neg_mse    -12.5995
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   * layer   7  neg_mse    -9.7215
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   8  neg_mse    -12.0194
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer   9  neg_mse    -13.2276
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer  10  neg_mse    -12.1438
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer  11  neg_mse    -11.2938
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |     layer  12  neg_mse    -10.6329
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   лучший слой: 7 = -9.7215
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | Decomposition methods: ['pca', 'probe_directions', 'null_space']
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | PCA: components=8, explained variance top-5=0.1036, 0.0379, 0.0324, 0.0291, 0.0243
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | Linear probe directions: n=1
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | Interventions: ['pca', 'probe_directions', 'null_space']
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 0: score=-11.5618
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 0: score=-16.1534
+2026-03-30 22:54:08 | DEBUG    | src.probing                        | probe layer 0: score=-16.1534
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | ························································
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   After intervention (pca) (neg_mse):
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   * layer   0  neg_mse    -11.5618
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   лучший слой: 0 = -11.5618
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | ························································
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   After intervention (probe_directions) (neg_mse):
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   * layer   0  neg_mse    -16.1534
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   лучший слой: 0 = -16.1534
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | ························································
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   After intervention (null_space) (neg_mse):
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   * layer   0  neg_mse    -16.1534
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            |   лучший слой: 0 = -16.1534
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | wrote summary C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\analysis\semantic\semantic_similarity\bert\text\pipeline_summary.json
+2026-03-30 22:54:08 | INFO     | run_exp                            | [bert/text] best layer=7 score=-9.7215
+2026-03-30 22:54:08 | INFO     | run_exp                            | summary: artifacts\analysis\semantic\semantic_similarity\bert\text\pipeline_summary.json
+2026-03-30 22:54:08 | INFO     | run_exp                            | Analysis level: sentence (batch_size=8, max_length=256)
+2026-03-30 22:54:08 | INFO     | src.embeddings.pipeline            | pipeline: level=sentence strategy=mean probing=regression batch_size=8 max_length=256 -> C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\analysis\semantic\semantic_similarity\bert\sentence
+2026-03-30 22:54:08 | INFO     | src.embeddings.extractor           | encode start: 1000 texts, batch_size=8, max_length=256, ~125 batches
+2026-03-30 22:54:08 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 start: idx=[0:8], samples=8, total_chars=483
+2026-03-30 22:54:08 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:13 | DEBUG    | src.embeddings.extractor           | encode batch 1/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:13 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 start: idx=[8:16], samples=8, total_chars=411
+2026-03-30 22:54:13 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:17 | DEBUG    | src.embeddings.extractor           | encode batch 2/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:17 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 start: idx=[16:24], samples=8, total_chars=490
+2026-03-30 22:54:17 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:20 | DEBUG    | src.embeddings.extractor           | encode batch 3/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:20 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 start: idx=[24:32], samples=8, total_chars=351
+2026-03-30 22:54:20 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:23 | DEBUG    | src.embeddings.extractor           | encode batch 4/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:23 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 start: idx=[32:40], samples=8, total_chars=364
+2026-03-30 22:54:23 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:26 | DEBUG    | src.embeddings.extractor           | encode batch 5/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:26 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 start: idx=[40:48], samples=8, total_chars=553
+2026-03-30 22:54:26 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:30 | DEBUG    | src.embeddings.extractor           | encode batch 6/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:30 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 start: idx=[48:56], samples=8, total_chars=453
+2026-03-30 22:54:30 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:33 | DEBUG    | src.embeddings.extractor           | encode batch 7/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:33 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 start: idx=[56:64], samples=8, total_chars=384
+2026-03-30 22:54:33 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:36 | DEBUG    | src.embeddings.extractor           | encode batch 8/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:36 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 start: idx=[64:72], samples=8, total_chars=364
+2026-03-30 22:54:36 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:39 | DEBUG    | src.embeddings.extractor           | encode batch 9/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:39 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 start: idx=[72:80], samples=8, total_chars=658
+2026-03-30 22:54:39 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:42 | DEBUG    | src.embeddings.extractor           | encode batch 10/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:42 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 start: idx=[80:88], samples=8, total_chars=736
+2026-03-30 22:54:42 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:45 | DEBUG    | src.embeddings.extractor           | encode batch 11/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:45 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 start: idx=[88:96], samples=8, total_chars=570
+2026-03-30 22:54:45 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:49 | DEBUG    | src.embeddings.extractor           | encode batch 12/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:49 | INFO     | src.embeddings.extractor           | encode batch 12/125
+2026-03-30 22:54:49 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 start: idx=[96:104], samples=8, total_chars=451
+2026-03-30 22:54:49 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:52 | DEBUG    | src.embeddings.extractor           | encode batch 13/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:52 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 start: idx=[104:112], samples=8, total_chars=481
+2026-03-30 22:54:52 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:55 | DEBUG    | src.embeddings.extractor           | encode batch 14/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:55 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 start: idx=[112:120], samples=8, total_chars=393
+2026-03-30 22:54:55 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:54:58 | DEBUG    | src.embeddings.extractor           | encode batch 15/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:54:58 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 start: idx=[120:128], samples=8, total_chars=578
+2026-03-30 22:54:58 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:55:01 | DEBUG    | src.embeddings.extractor           | encode batch 16/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:55:01 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 start: idx=[128:136], samples=8, total_chars=558
+2026-03-30 22:55:01 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:55:05 | DEBUG    | src.embeddings.extractor           | encode batch 17/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:55:05 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 start: idx=[136:144], samples=8, total_chars=453
+2026-03-30 22:55:05 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)
+2026-03-30 22:55:08 | DEBUG    | src.embeddings.extractor           | encode batch 18/125 forward ok: n_layers=13 layer0=(8, 256, 768)
+2026-03-30 22:55:08 | DEBUG    | src.embeddings.extractor           | encode batch 19/125 start: idx=[144:152], samples=8, total_chars=532
+2026-03-30 22:55:08 | DEBUG    | src.embeddings.extractor           | encode batch 19/125 tokenized: input_ids=(8, 256) attention_mask=(8, 256)

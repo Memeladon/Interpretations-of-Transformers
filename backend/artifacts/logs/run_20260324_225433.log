@@ -1,0 +1,341 @@
+2026-03-24 22:54:33 | INFO     | __main__                           | 
+2026-03-24 22:54:33 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:54:33 | INFO     | __main__                           |   ▶ Интерпретации трансформеров — эксперимент
+2026-03-24 22:54:33 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:54:33 | INFO     | __main__                           | Полный текстовый лог (без ANSI): C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\logs\run_20260324_225433.log
+2026-03-24 22:54:33 | INFO     | __main__                           | 
+2026-03-24 22:54:33 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:54:33 | INFO     | __main__                           |   ▶ Этап: загрузка и нормализация датасетов
+2026-03-24 22:54:33 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:54:33 | INFO     | __main__                           | HF cache, лимит по датасету: 500 строк (можно изменить в run_exp.py)
+2026-03-24 22:54:33 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:34 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-24 22:54:34 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/ai-forever/ru-stsbenchmark-sts/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/README.md HTTP/1.1" 200 0
+2026-03-24 22:54:34 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/ru-stsbenchmark-sts.py HTTP/1.1" 404 0
+2026-03-24 22:54:34 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): s3.amazonaws.com:443
+2026-03-24 22:54:37 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:38 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-24 22:54:38 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): datasets-server.huggingface.co:443
+2026-03-24 22:54:38 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=ai-forever/ru-stsbenchmark-sts HTTP/1.1" 200 None
+2026-03-24 22:54:38 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/tree/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/data?recursive=False&expand=False HTTP/1.1" 200 344
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:39 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:40 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:40 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/ai-forever/ru-stsbenchmark-sts/resolve/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_infos.json HTTP/1.1" 404 0
+2026-03-24 22:54:40 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:40 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:40 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:41 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:41 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:41 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/ai-forever/ru-stsbenchmark-sts/revision/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9 HTTP/1.1" 200 None
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Attempting to acquire lock 2175579309248 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Lock 2175579309248 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-24 22:54:41 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/ai-forever___ru-stsbenchmark-sts/sts/0.0.0/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_info.json
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Attempting to release lock 2175579309248 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Lock 2175579309248 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_ai-forever___ru-stsbenchmark-sts_sts_0.0.0_1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9.lock
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Attempting to acquire lock 2175579309824 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Lock 2175579309824 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-24 22:54:41 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/ai-forever___ru-stsbenchmark-sts/sts/0.0.0/1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9/dataset_info.json
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Attempting to release lock 2175579309824 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-24 22:54:41 | DEBUG    | filelock                           | Lock 2175579309824 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\ai-forever___ru-stsbenchmark-sts\sts\0.0.0\1ee9c2ca22b69ccfffa9df9f8f4ae40702c8a6e9_builder.lock
+2026-03-24 22:54:41 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-24 22:54:41 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/MilyaShams/qqp-ru_10k/4401c47255c7bdfe87f20ef677c1239b37c93a7a/README.md HTTP/1.1" 200 0
+2026-03-24 22:54:42 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/qqp-ru_10k.py HTTP/1.1" 404 0
+2026-03-24 22:54:42 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (2): s3.amazonaws.com:443
+2026-03-24 22:54:45 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:45 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-24 22:54:45 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=MilyaShams/qqp-ru_10k HTTP/1.1" 200 None
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/tree/4401c47255c7bdfe87f20ef677c1239b37c93a7a/data?recursive=True&expand=False HTTP/1.1" 200 943
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/tree/4401c47255c7bdfe87f20ef677c1239b37c93a7a?recursive=False&expand=False HTTP/1.1" 200 290
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:46 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:47 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:47 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:47 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:47 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MilyaShams/qqp-ru_10k/resolve/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_infos.json HTTP/1.1" 404 0
+2026-03-24 22:54:47 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:48 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:48 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:48 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:48 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:48 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MilyaShams/qqp-ru_10k/revision/4401c47255c7bdfe87f20ef677c1239b37c93a7a HTTP/1.1" 200 None
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Attempting to acquire lock 2175580323904 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Lock 2175580323904 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-24 22:54:48 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MilyaShams___qqp-ru_10k/default/0.0.0/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_info.json
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Attempting to release lock 2175580323904 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Lock 2175580323904 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MilyaShams___qqp-ru_10k_default_0.0.0_4401c47255c7bdfe87f20ef677c1239b37c93a7a.lock
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Attempting to acquire lock 2175580332256 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Lock 2175580332256 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-24 22:54:48 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MilyaShams___qqp-ru_10k/default/0.0.0/4401c47255c7bdfe87f20ef677c1239b37c93a7a/dataset_info.json
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Attempting to release lock 2175580332256 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-24 22:54:48 | DEBUG    | filelock                           | Lock 2175580332256 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MilyaShams___qqp-ru_10k\default\0.0.0\4401c47255c7bdfe87f20ef677c1239b37c93a7a_builder.lock
+2026-03-24 22:54:49 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-24 22:54:49 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/MonoHime/ru_sentiment_dataset/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/README.md HTTP/1.1" 200 0
+2026-03-24 22:54:49 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/ru_sentiment_dataset.py HTTP/1.1" 404 0
+2026-03-24 22:54:49 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (3): s3.amazonaws.com:443
+2026-03-24 22:54:52 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=MonoHime/ru_sentiment_dataset HTTP/1.1" 200 None
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/tree/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/data?recursive=True&expand=False HTTP/1.1" 404 79
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/tree/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425?recursive=False&expand=False HTTP/1.1" 200 None
+2026-03-24 22:54:53 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:54 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-24 22:54:54 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:54:54 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/MonoHime/ru_sentiment_dataset/revision/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425 HTTP/1.1" 200 None
+2026-03-24 22:54:54 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/MonoHime/ru_sentiment_dataset/resolve/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_infos.json HTTP/1.1" 404 0
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Attempting to acquire lock 2175578386832 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Lock 2175578386832 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-24 22:54:54 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MonoHime___ru_sentiment_dataset/default/0.0.0/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_info.json
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Attempting to release lock 2175578386832 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Lock 2175578386832 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_MonoHime___ru_sentiment_dataset_default_0.0.0_a66a66ee3a858c2b59e056b3fb7dfaf501fc5425.lock
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Attempting to acquire lock 2175582279840 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Lock 2175582279840 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-24 22:54:54 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/MonoHime___ru_sentiment_dataset/default/0.0.0/a66a66ee3a858c2b59e056b3fb7dfaf501fc5425/dataset_info.json
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Attempting to release lock 2175582279840 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-24 22:54:54 | DEBUG    | filelock                           | Lock 2175582279840 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\MonoHime___ru_sentiment_dataset\default\0.0.0\a66a66ee3a858c2b59e056b3fb7dfaf501fc5425_builder.lock
+2026-03-24 22:54:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/main/README.md HTTP/1.1" 307 0
+2026-03-24 22:54:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/datasets/seara/ru_go_emotions/0323e396b62e5e34812e70e1a82604d25b43f9a0/README.md HTTP/1.1" 200 0
+2026-03-24 22:54:59 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/0323e396b62e5e34812e70e1a82604d25b43f9a0/ru_go_emotions.py HTTP/1.1" 404 0
+2026-03-24 22:54:59 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (4): s3.amazonaws.com:443
+2026-03-24 22:54:59 | DEBUG    | urllib3.connectionpool             | https://s3.amazonaws.com:443 "HEAD /datasets.huggingface.co/datasets/datasets/seara/ru_go_emotions/seara/ru_go_emotions.py HTTP/1.1" 404 0
+2026-03-24 22:55:00 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-24 22:55:00 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/0323e396b62e5e34812e70e1a82604d25b43f9a0/.huggingface.yaml HTTP/1.1" 404 0
+2026-03-24 22:55:00 | DEBUG    | urllib3.connectionpool             | https://datasets-server.huggingface.co:443 "GET /info?dataset=seara/ru_go_emotions HTTP/1.1" 200 None
+2026-03-24 22:55:00 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-24 22:55:00 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/tree/0323e396b62e5e34812e70e1a82604d25b43f9a0/raw?recursive=True&expand=False HTTP/1.1" 200 333
+2026-03-24 22:55:01 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/tree/0323e396b62e5e34812e70e1a82604d25b43f9a0?recursive=False&expand=False HTTP/1.1" 200 389
+2026-03-24 22:55:01 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:55:01 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-24 22:55:01 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /datasets/seara/ru_go_emotions/resolve/0323e396b62e5e34812e70e1a82604d25b43f9a0/dataset_infos.json HTTP/1.1" 404 0
+2026-03-24 22:55:01 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:55:02 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/datasets/seara/ru_go_emotions/revision/0323e396b62e5e34812e70e1a82604d25b43f9a0 HTTP/1.1" 200 None
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Attempting to acquire lock 2175579309824 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Lock 2175579309824 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-24 22:55:02 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/seara___ru_go_emotions/raw/0.0.0/0323e396b62e5e34812e70e1a82604d25b43f9a0/dataset_info.json
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Attempting to release lock 2175579309824 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Lock 2175579309824 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\.cache_hf_datasets_seara___ru_go_emotions_raw_0.0.0_0323e396b62e5e34812e70e1a82604d25b43f9a0.lock
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Attempting to acquire lock 2175580332976 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\seara___ru_go_emotions\raw\0.0.0\0323e396b62e5e34812e70e1a82604d25b43f9a0_builder.lock
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Lock 2175580332976 acquired on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\seara___ru_go_emotions\raw\0.0.0\0323e396b62e5e34812e70e1a82604d25b43f9a0_builder.lock
+2026-03-24 22:55:02 | DEBUG    | fsspec.local                       | open file: C:/Dev Projects/Python/Interpretations-of-Transformers/backend/.cache/hf_datasets/seara___ru_go_emotions/raw/0.0.0/0323e396b62e5e34812e70e1a82604d25b43f9a0/dataset_info.json
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Attempting to release lock 2175580332976 on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\seara___ru_go_emotions\raw\0.0.0\0323e396b62e5e34812e70e1a82604d25b43f9a0_builder.lock
+2026-03-24 22:55:02 | DEBUG    | filelock                           | Lock 2175580332976 released on C:\Dev Projects\Python\Interpretations-of-Transformers\backend\.cache\hf_datasets\seara___ru_go_emotions\raw\0.0.0\0323e396b62e5e34812e70e1a82604d25b43f9a0_builder.lock
+2026-03-24 22:55:31 | INFO     | __main__                           | Всего записей в единой выборке: 2000
+2026-03-24 22:55:31 | INFO     | __main__                           | Задача: sentiment — примеров: 500, классы: [0, 1, 2]
+2026-03-24 22:55:31 | INFO     | __main__                           | ········································································
+2026-03-24 22:55:31 | INFO     | __main__                           | 
+2026-03-24 22:55:31 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:55:31 | INFO     | __main__                           |   ▶ Модель: BERT
+2026-03-24 22:55:31 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:55:31 | INFO     | src.language_models.loader         | loading tokenizer: bert-base-multilingual-cased
+2026-03-24 22:55:31 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /bert-base-multilingual-cased/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2026-03-24 22:55:31 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/bert-base-multilingual-cased/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 307 152
+2026-03-24 22:55:31 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/google-bert/bert-base-multilingual-cased/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-03-24 22:55:32 | INFO     | src.language_models.loader         | loading weights: bert-base-multilingual-cased -> cpu
+2026-03-24 22:55:32 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /bert-base-multilingual-cased/resolve/main/config.json HTTP/1.1" 200 0
+2026-03-24 22:55:32 | INFO     | src.language_models.loader         | model ready: family=bert name=bert-base-multilingual-cased
+2026-03-24 22:55:32 | INFO     | src.embeddings.pipeline            | pipeline: level=text strategy=mean probing=classification batch_size=8 -> C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\bert
+2026-03-24 22:55:32 | INFO     | src.embeddings.extractor           | encode start: 500 texts, batch_size=8, max_length=256, ~63 batches
+2026-03-24 22:55:38 | INFO     | src.embeddings.extractor           | encode batch 6/63
+2026-03-24 22:55:44 | INFO     | src.embeddings.extractor           | encode batch 12/63
+2026-03-24 22:55:50 | INFO     | src.embeddings.extractor           | encode batch 18/63
+2026-03-24 22:55:56 | INFO     | src.embeddings.extractor           | encode batch 24/63
+2026-03-24 22:56:02 | INFO     | src.embeddings.extractor           | encode batch 30/63
+2026-03-24 22:56:09 | INFO     | src.embeddings.extractor           | encode batch 36/63
+2026-03-24 22:56:15 | INFO     | src.embeddings.extractor           | encode batch 42/63
+2026-03-24 22:56:22 | INFO     | src.embeddings.extractor           | encode batch 48/63
+2026-03-24 22:56:28 | INFO     | src.embeddings.extractor           | encode batch 54/63
+2026-03-24 22:56:34 | INFO     | src.embeddings.extractor           | encode batch 60/63
+2026-03-24 22:56:37 | INFO     | src.embeddings.extractor           | encode batch 63/63
+2026-03-24 22:56:42 | INFO     | src.embeddings.extractor           | encode done: layers=13, first_layer_shape=(500, 256, 768), mask_shape=(500, 256)
+2026-03-24 22:56:43 | INFO     | src.embeddings.pipeline            | aggregated 13 layer tensors (level=text)
+2026-03-24 22:56:43 | INFO     | src.embeddings.pipeline            | saved 13 embedding files under C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\bert
+2026-03-24 22:56:43 | INFO     | src.embeddings.pipeline            | Probing: линейные зонды по слоям (classification)
+2026-03-24 22:56:48 | DEBUG    | src.probing                        | probe layer 0: score=0.5200
+2026-03-24 22:56:50 | DEBUG    | src.probing                        | probe layer 1: score=0.5000
+2026-03-24 22:56:53 | DEBUG    | src.probing                        | probe layer 2: score=0.5300
+2026-03-24 22:56:56 | DEBUG    | src.probing                        | probe layer 3: score=0.5300
+2026-03-24 22:56:58 | DEBUG    | src.probing                        | probe layer 4: score=0.5900
+2026-03-24 22:57:01 | DEBUG    | src.probing                        | probe layer 5: score=0.5700
+2026-03-24 22:57:03 | DEBUG    | src.probing                        | probe layer 6: score=0.5200
+2026-03-24 22:57:06 | DEBUG    | src.probing                        | probe layer 7: score=0.5700
+2026-03-24 22:57:08 | DEBUG    | src.probing                        | probe layer 8: score=0.5900
+2026-03-24 22:57:10 | DEBUG    | src.probing                        | probe layer 9: score=0.5600
+2026-03-24 22:57:13 | DEBUG    | src.probing                        | probe layer 10: score=0.6200
+2026-03-24 22:57:16 | DEBUG    | src.probing                        | probe layer 11: score=0.5800
+2026-03-24 22:57:18 | DEBUG    | src.probing                        | probe layer 12: score=0.5300
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |   Результаты probing (accuracy):
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   0  accuracy   0.5200
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   1  accuracy   0.5000
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   2  accuracy   0.5300
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   3  accuracy   0.5300
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   4  accuracy   0.5900
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   5  accuracy   0.5700
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   6  accuracy   0.5200
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   7  accuracy   0.5700
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   8  accuracy   0.5900
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer   9  accuracy   0.5600
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |   * layer  10  accuracy   0.6200
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer  11  accuracy   0.5800
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |     layer  12  accuracy   0.5300
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            |   лучший слой: 10 = 0.6200
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            | Декомпозиция: PCA по эмбеддингам последнего слоя
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            | PCA: компонент 8, доля дисперсии (топ-5): 0.0885, 0.0641, 0.0605, 0.0476, 0.0418
+2026-03-24 22:57:18 | INFO     | src.embeddings.pipeline            | Интервенция: снята проекция на 1-й главный компонент, повторный probing
+2026-03-24 22:57:21 | DEBUG    | src.probing                        | probe layer 0: score=0.4700
+2026-03-24 22:57:21 | INFO     | src.embeddings.pipeline            | ························································
+2026-03-24 22:57:21 | INFO     | src.embeddings.pipeline            |   После интервенции (accuracy):
+2026-03-24 22:57:21 | INFO     | src.embeddings.pipeline            |   * layer   0  accuracy   0.4700
+2026-03-24 22:57:21 | INFO     | src.embeddings.pipeline            |   лучший слой: 0 = 0.4700
+2026-03-24 22:57:21 | INFO     | src.embeddings.pipeline            | wrote summary C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\bert\pipeline_summary.json
+2026-03-24 22:57:21 | INFO     | __main__                           | ········································································
+2026-03-24 22:57:21 | INFO     | __main__                           | Устройство: cpu
+2026-03-24 22:57:21 | INFO     | __main__                           | Сохранено слоёв (.npy): 13
+2026-03-24 22:57:21 | INFO     | __main__                           |   Probing (accuracy по слоям) (acc):
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   0  acc        0.5200
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   1  acc        0.5000
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   2  acc        0.5300
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   3  acc        0.5300
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   4  acc        0.5900
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   5  acc        0.5700
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   6  acc        0.5200
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   7  acc        0.5700
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   8  acc        0.5900
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer   9  acc        0.5600
+2026-03-24 22:57:21 | INFO     | __main__                           |   * layer  10  acc        0.6200
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer  11  acc        0.5800
+2026-03-24 22:57:21 | INFO     | __main__                           |     layer  12  acc        0.5300
+2026-03-24 22:57:21 | INFO     | __main__                           |   лучший слой: 10 = 0.6200
+2026-03-24 22:57:21 | INFO     | __main__                           |   После интервенции (PCA, убран 1 компонент) (acc):
+2026-03-24 22:57:21 | INFO     | __main__                           |   * layer   0  acc        0.4700
+2026-03-24 22:57:21 | INFO     | __main__                           |   лучший слой: 0 = 0.4700
+2026-03-24 22:57:21 | INFO     | __main__                           | Сводка JSON: artifacts\bert\pipeline_summary.json
+2026-03-24 22:57:21 | INFO     | __main__                           | 
+2026-03-24 22:57:21 | INFO     | __main__                           | 
+2026-03-24 22:57:21 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:57:21 | INFO     | __main__                           |   ▶ Модель: GPT
+2026-03-24 22:57:21 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:57:21 | INFO     | src.language_models.loader         | loading tokenizer: ai-forever/rugpt3small_based_on_gpt2
+2026-03-24 22:57:21 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /ai-forever/rugpt3small_based_on_gpt2/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2026-03-24 22:57:21 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/models/ai-forever/rugpt3small_based_on_gpt2/a9307e696cd3c5b7f953ff4cb19d76a4d81821d5/tokenizer_config.json HTTP/1.1" 200 0
+2026-03-24 22:57:22 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/ai-forever/rugpt3small_based_on_gpt2/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-03-24 22:57:22 | INFO     | src.language_models.loader         | loading weights: ai-forever/rugpt3small_based_on_gpt2 -> cpu
+2026-03-24 22:57:22 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /ai-forever/rugpt3small_based_on_gpt2/resolve/main/config.json HTTP/1.1" 307 0
+2026-03-24 22:57:22 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/models/ai-forever/rugpt3small_based_on_gpt2/a9307e696cd3c5b7f953ff4cb19d76a4d81821d5/config.json HTTP/1.1" 200 0
+2026-03-24 22:57:22 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /ai-forever/rugpt3small_based_on_gpt2/resolve/main/model.safetensors HTTP/1.1" 404 0
+2026-03-24 22:57:22 | DEBUG    | urllib3.connectionpool             | Starting new HTTPS connection (1): huggingface.co:443
+2026-03-24 22:57:23 | INFO     | src.language_models.loader         | model ready: family=gpt name=ai-forever/rugpt3small_based_on_gpt2
+2026-03-24 22:57:23 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/ai-forever/rugpt3small_based_on_gpt2 HTTP/1.1" 200 None
+2026-03-24 22:57:23 | INFO     | src.embeddings.pipeline            | pipeline: level=text strategy=mean probing=classification batch_size=8 -> C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\gpt
+2026-03-24 22:57:23 | INFO     | src.embeddings.extractor           | encode start: 500 texts, batch_size=8, max_length=256, ~63 batches
+2026-03-24 22:57:23 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/ai-forever/rugpt3small_based_on_gpt2/commits/main HTTP/1.1" 200 None
+2026-03-24 22:57:24 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/ai-forever/rugpt3small_based_on_gpt2/discussions?p=0 HTTP/1.1" 200 None
+2026-03-24 22:57:24 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/ai-forever/rugpt3small_based_on_gpt2/commits/refs%2Fpr%2F6 HTTP/1.1" 200 None
+2026-03-24 22:57:24 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /ai-forever/rugpt3small_based_on_gpt2/resolve/refs%2Fpr%2F6/model.safetensors.index.json HTTP/1.1" 404 0
+2026-03-24 22:57:24 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /ai-forever/rugpt3small_based_on_gpt2/resolve/refs%2Fpr%2F6/model.safetensors HTTP/1.1" 302 0
+2026-03-24 22:57:29 | INFO     | src.embeddings.extractor           | encode batch 6/63
+2026-03-24 22:57:37 | INFO     | src.embeddings.extractor           | encode batch 12/63
+2026-03-24 22:57:43 | INFO     | src.embeddings.extractor           | encode batch 18/63
+2026-03-24 22:57:50 | INFO     | src.embeddings.extractor           | encode batch 24/63
+2026-03-24 22:57:57 | INFO     | src.embeddings.extractor           | encode batch 30/63
+2026-03-24 22:58:04 | INFO     | src.embeddings.extractor           | encode batch 36/63
+2026-03-24 22:58:13 | INFO     | src.embeddings.extractor           | encode batch 42/63
+2026-03-24 22:58:21 | INFO     | src.embeddings.extractor           | encode batch 48/63
+2026-03-24 22:58:29 | INFO     | src.embeddings.extractor           | encode batch 54/63
+2026-03-24 22:58:36 | INFO     | src.embeddings.extractor           | encode batch 60/63
+2026-03-24 22:58:39 | INFO     | src.embeddings.extractor           | encode batch 63/63
+2026-03-24 22:58:48 | INFO     | src.embeddings.extractor           | encode done: layers=13, first_layer_shape=(500, 256, 768), mask_shape=(500, 256)
+2026-03-24 22:58:50 | INFO     | src.embeddings.pipeline            | aggregated 13 layer tensors (level=text)
+2026-03-24 22:58:50 | INFO     | src.embeddings.pipeline            | saved 13 embedding files under C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\gpt
+2026-03-24 22:58:50 | INFO     | src.embeddings.pipeline            | Probing: линейные зонды по слоям (classification)
+2026-03-24 22:58:55 | DEBUG    | src.probing                        | probe layer 0: score=0.6300
+2026-03-24 22:58:58 | DEBUG    | src.probing                        | probe layer 1: score=0.7000
+2026-03-24 22:59:00 | DEBUG    | src.probing                        | probe layer 2: score=0.6900
+2026-03-24 22:59:03 | DEBUG    | src.probing                        | probe layer 3: score=0.6500
+2026-03-24 22:59:05 | DEBUG    | src.probing                        | probe layer 4: score=0.6000
+2026-03-24 22:59:08 | DEBUG    | src.probing                        | probe layer 5: score=0.6000
+2026-03-24 22:59:08 | DEBUG    | src.probing                        | probe layer 6: score=0.6100
+2026-03-24 22:59:09 | DEBUG    | src.probing                        | probe layer 7: score=0.6300
+2026-03-24 22:59:09 | DEBUG    | src.probing                        | probe layer 8: score=0.6400
+2026-03-24 22:59:09 | DEBUG    | src.probing                        | probe layer 9: score=0.6100
+2026-03-24 22:59:09 | DEBUG    | src.probing                        | probe layer 10: score=0.6700
+2026-03-24 22:59:10 | DEBUG    | src.probing                        | probe layer 11: score=0.6500
+2026-03-24 22:59:10 | DEBUG    | src.probing                        | probe layer 12: score=0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   Результаты probing (accuracy):
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   0  accuracy   0.6300
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   * layer   1  accuracy   0.7000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   2  accuracy   0.6900
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   3  accuracy   0.6500
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   4  accuracy   0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   5  accuracy   0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   6  accuracy   0.6100
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   7  accuracy   0.6300
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   8  accuracy   0.6400
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer   9  accuracy   0.6100
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer  10  accuracy   0.6700
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer  11  accuracy   0.6500
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |     layer  12  accuracy   0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   лучший слой: 1 = 0.7000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            | Декомпозиция: PCA по эмбеддингам последнего слоя
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            | PCA: компонент 8, доля дисперсии (топ-5): 0.2068, 0.0712, 0.0521, 0.0393, 0.0319
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            | Интервенция: снята проекция на 1-й главный компонент, повторный probing
+2026-03-24 22:59:10 | DEBUG    | src.probing                        | probe layer 0: score=0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            | ························································
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   После интервенции (accuracy):
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   * layer   0  accuracy   0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            |   лучший слой: 0 = 0.6000
+2026-03-24 22:59:10 | INFO     | src.embeddings.pipeline            | wrote summary C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\gpt\pipeline_summary.json
+2026-03-24 22:59:10 | INFO     | __main__                           | ········································································
+2026-03-24 22:59:10 | INFO     | __main__                           | Устройство: cpu
+2026-03-24 22:59:10 | INFO     | __main__                           | Сохранено слоёв (.npy): 13
+2026-03-24 22:59:10 | INFO     | __main__                           |   Probing (accuracy по слоям) (acc):
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   0  acc        0.6300
+2026-03-24 22:59:10 | INFO     | __main__                           |   * layer   1  acc        0.7000
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   2  acc        0.6900
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   3  acc        0.6500
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   4  acc        0.6000
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   5  acc        0.6000
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   6  acc        0.6100
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   7  acc        0.6300
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   8  acc        0.6400
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer   9  acc        0.6100
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer  10  acc        0.6700
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer  11  acc        0.6500
+2026-03-24 22:59:10 | INFO     | __main__                           |     layer  12  acc        0.6000
+2026-03-24 22:59:10 | INFO     | __main__                           |   лучший слой: 1 = 0.7000
+2026-03-24 22:59:10 | INFO     | __main__                           |   После интервенции (PCA, убран 1 компонент) (acc):
+2026-03-24 22:59:10 | INFO     | __main__                           |   * layer   0  acc        0.6000
+2026-03-24 22:59:10 | INFO     | __main__                           |   лучший слой: 0 = 0.6000
+2026-03-24 22:59:10 | INFO     | __main__                           | Сводка JSON: artifacts\gpt\pipeline_summary.json
+2026-03-24 22:59:10 | INFO     | __main__                           | 
+2026-03-24 22:59:10 | INFO     | __main__                           | 
+2026-03-24 22:59:10 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:59:10 | INFO     | __main__                           |   ▶ Модель: LLAMA
+2026-03-24 22:59:10 | INFO     | __main__                           | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 22:59:10 | INFO     | src.language_models.loader         | loading tokenizer: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+2026-03-24 22:59:10 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /TinyLlama/TinyLlama-1.1B-Chat-v1.0/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2026-03-24 22:59:10 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/models/TinyLlama/TinyLlama-1.1B-Chat-v1.0/fe8a4ea1ffedaf415f4da2f062534de366a451e6/tokenizer_config.json HTTP/1.1" 200 0
+2026-03-24 22:59:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "GET /api/models/TinyLlama/TinyLlama-1.1B-Chat-v1.0/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-03-24 22:59:11 | INFO     | src.language_models.loader         | loading weights: TinyLlama/TinyLlama-1.1B-Chat-v1.0 -> cpu
+2026-03-24 22:59:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /TinyLlama/TinyLlama-1.1B-Chat-v1.0/resolve/main/config.json HTTP/1.1" 307 0
+2026-03-24 22:59:11 | DEBUG    | urllib3.connectionpool             | https://huggingface.co:443 "HEAD /api/resolve-cache/models/TinyLlama/TinyLlama-1.1B-Chat-v1.0/fe8a4ea1ffedaf415f4da2f062534de366a451e6/config.json HTTP/1.1" 200 0
+2026-03-24 22:59:16 | INFO     | src.language_models.loader         | model ready: family=llama name=TinyLlama/TinyLlama-1.1B-Chat-v1.0
+2026-03-24 22:59:17 | INFO     | src.embeddings.pipeline            | pipeline: level=text strategy=mean probing=classification batch_size=8 -> C:\Dev Projects\Python\Interpretations-of-Transformers\backend\artifacts\llama
+2026-03-24 22:59:17 | INFO     | src.embeddings.extractor           | encode start: 500 texts, batch_size=8, max_length=256, ~63 batches
+2026-03-24 23:00:23 | INFO     | src.embeddings.extractor           | encode batch 6/63
+2026-03-24 23:01:29 | INFO     | src.embeddings.extractor           | encode batch 12/63
+2026-03-24 23:02:35 | INFO     | src.embeddings.extractor           | encode batch 18/63
+2026-03-24 23:03:38 | INFO     | src.embeddings.extractor           | encode batch 24/63
+2026-03-24 23:04:43 | INFO     | src.embeddings.extractor           | encode batch 30/63
+2026-03-24 23:05:47 | INFO     | src.embeddings.extractor           | encode batch 36/63
+2026-03-24 23:06:50 | INFO     | src.embeddings.extractor           | encode batch 42/63
+2026-03-24 23:07:54 | INFO     | src.embeddings.extractor           | encode batch 48/63
+2026-03-24 23:08:59 | INFO     | src.embeddings.extractor           | encode batch 54/63
+2026-03-24 23:12:47 | INFO     | src.embeddings.extractor           | encode batch 60/63
+2026-03-24 23:13:15 | INFO     | src.embeddings.extractor           | encode batch 63/63
